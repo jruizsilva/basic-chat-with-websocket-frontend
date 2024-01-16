@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   FormControl,
@@ -13,6 +14,7 @@ import Stomp from 'stompjs'
 
 import { ChatApp } from 'components/ChatApp'
 import { type ChatMessage, useAppStore } from 'store/useAppStore'
+import { capitalize } from 'utils/capitalize'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
@@ -55,7 +57,7 @@ export function App() {
     const formData = new FormData(e.currentTarget)
     const username = formData.get('username') as string
 
-    setUser(username)
+    setUser(capitalize(username))
   }
   const handleLogout = () => {
     setUser(null)
@@ -75,7 +77,27 @@ export function App() {
             <Heading mr={'auto'} size={'lg'}>
               Chat app
             </Heading>
-            {user !== null && <Button onClick={handleLogout}>Logout</Button>}
+            {user !== null && (
+              <Box
+                alignContent={'center'}
+                display={'flex'}
+                gap={8}
+                justifyContent={'center'}
+              >
+                <Box
+                  alignItems={'center'}
+                  display={'flex'}
+                  gap={2}
+                  justifyContent={'center'}
+                >
+                  <Avatar name={user} size={'sm'} />
+                  <Text fontSize={'2xl'}>{user}</Text>
+                </Box>
+                <Button variant={'outline'} onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
