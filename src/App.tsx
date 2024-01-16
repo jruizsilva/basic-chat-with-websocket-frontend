@@ -13,7 +13,13 @@ import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
 import { ChatApp } from 'components/ChatApp'
-import { type ChatMessage, useAppStore } from 'store/useAppStore'
+import {
+  type ChatMessage,
+  useAppStore,
+  type User,
+  type UserRequest,
+  type UserRequest
+} from 'store/useAppStore'
 import { capitalize } from 'utils/capitalize'
 
 export function App() {
@@ -39,6 +45,11 @@ export function App() {
 
           addMessage(newMessage as ChatMessage)
         })
+        stompClient.subscribe('/topic/users/public', (message) => {
+          const users = JSON.parse(message.body)
+
+          addMessage(users as ChatMessage)
+        })
       })
     }
 
@@ -57,7 +68,12 @@ export function App() {
     const formData = new FormData(e.currentTarget)
     const username = formData.get('username') as string
 
-    setUser(capitalize(username))
+    const user: UserRequest = {
+      username: capitalize(username)
+    }
+
+    stompClient.send
+    setUser(user)
   }
   const handleLogout = () => {
     setUser(null)
