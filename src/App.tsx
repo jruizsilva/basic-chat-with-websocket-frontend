@@ -11,12 +11,15 @@ import { useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
-import { useAppStore } from 'store/useAppStore'
+import { ChatApp } from 'components/ChatApp'
+import { type ChatMessage, useAppStore } from 'store/useAppStore'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
   const setUser = useAppStore((store) => store.setUser)
   const user = useAppStore((store) => store.user)
+  const addMessage = useAppStore((store) => store.addMessage)
+
   const setStompClient = useAppStore((store) => store.setStompClient)
 
   useEffect(() => {
@@ -29,17 +32,28 @@ export function App() {
 
       stompClient.connect({}, () => {
         console.log('connected')
+        stompClient.subscribe('/topic/messages', (message) => {
+          const newMessage = JSON.parse(message.body)
+
+          console.log(newMessage)
+
+          addMessage(newMessage as ChatMessage)
+        })
       })
     }
-    if (user === null && stompClient !== null && stompClient.connected) {
-      stompClient.disconnect(() => {
-        console.log('web socket disconnected')
-        setStompClient(null)
-      })
+
+    return () => {
+      if (stompClient !== null && stompClient.connected) {
+        stompClient.disconnect(() => {
+          console.log('web socket disconnected')
+          setStompClient(null)
+        })
+      }
     }
-  }, [user, stompClient, setStompClient])
+  }, [user, addMessage, stompClient, setStompClient])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const username = formData.get('username') as string
 
@@ -47,6 +61,12 @@ export function App() {
   }
   const handleLogout = () => {
     setUser(null)
+    if (user === null && stompClient !== null && stompClient.connected) {
+      stompClient.disconnect(() => {
+        console.log('web socket disconnected')
+        setStompClient(null)
+      })
+    }
   }
 
   return (
@@ -84,7 +104,12 @@ export function App() {
             </Box>
           </>
         )}
-        {user !== null && <Text>Welcome {user}</Text>}
+        {user !== null && (
+          <Box display={'flex'} flexDir={'column'} gap={6}>
+            <Text fontSize={'2xl'}>Welcome {user}</Text>
+            <ChatApp />
+          </Box>
+        )}
       </Box>
     </>
   )
