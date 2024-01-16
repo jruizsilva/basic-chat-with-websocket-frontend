@@ -1,8 +1,91 @@
-import { Chat } from 'components/Chat'
-import { useSocketWithStomp } from 'hooks/useSocketWithStomp'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Text
+} from '@chakra-ui/react'
+import { useEffect } from 'react'
+import SockJS from 'sockjs-client'
+import Stomp from 'stompjs'
+
+import { useAppStore } from 'store/useAppStore'
 
 export function App() {
-  useSocketWithStomp()
+  const stompClient = useAppStore((store) => store.stompClient)
+  const setUser = useAppStore((store) => store.setUser)
+  const user = useAppStore((store) => store.user)
+  const setStompClient = useAppStore((store) => store.setStompClient)
 
-  return <Chat />
+  useEffect(() => {
+    if (user !== null && stompClient === null) {
+      const socket = new SockJS('http://localhost:8080/ws')
+
+      const stompClient = Stomp.over(socket)
+
+      setStompClient(stompClient)
+
+      stompClient.connect({}, () => {
+        console.log('connected')
+      })
+    }
+    if (user === null && stompClient !== null && stompClient.connected) {
+      stompClient.disconnect(() => {
+        console.log('web socket disconnected')
+        setStompClient(null)
+      })
+    }
+  }, [user, stompClient, setStompClient])
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget)
+    const username = formData.get('username') as string
+
+    setUser(username)
+  }
+  const handleLogout = () => {
+    setUser(null)
+  }
+
+  return (
+    <>
+      <Box borderBottom='1px' borderColor='gray.200' mb={8}>
+        <Box maxW={'480px'} mx={'auto'}>
+          <Box display={'flex'} py={4}>
+            <Heading mr={'auto'} size={'lg'}>
+              Chat app
+            </Heading>
+            {user !== null && <Button onClick={handleLogout}>Logout</Button>}
+          </Box>
+        </Box>
+      </Box>
+      <Box maxW={'480px'} mx={'auto'}>
+        {user === null && (
+          <>
+            <Box>
+              <Heading mb={5} size={'lg'}>
+                Login
+              </Heading>
+            </Box>
+            <Box
+              as={'form'}
+              display={'flex'}
+              flexDirection={'column'}
+              gap={4}
+              onSubmit={handleSubmit}
+            >
+              <FormControl>
+                <FormLabel>Username</FormLabel>
+                <Input required minLength={2} name='username' />
+              </FormControl>
+              <Button type='submit'>Login</Button>
+            </Box>
+          </>
+        )}
+        {user !== null && <Text>Welcome {user}</Text>}
+      </Box>
+    </>
+  )
 }

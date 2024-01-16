@@ -2,19 +2,19 @@ import { create } from 'zustand'
 import type Stomp from 'stompjs'
 
 interface Store {
-  isConnected: boolean
-  setIsConnected: (isConnected: boolean) => void
+  user: string | null
+  setUser: (user: string | null) => void
   stompClient: Stomp.Client | null
-  setStompClient: (stompClient: Stomp.Client) => void
+  setStompClient: (stompClient: Stomp.Client | null) => void
 }
 
 export const useAppStore = create<Store>()((set) => ({
-  isConnected: false,
-  setIsConnected: (isConnected: boolean) => {
-    set(() => ({ isConnected }))
+  user: null,
+  setUser: (user: string | null) => {
+    set(() => ({ user }))
   },
   stompClient: null,
-  setStompClient: (stompClient: Stomp.Client) => {
+  setStompClient: (stompClient: Stomp.Client | null) => {
     set(() => ({ stompClient }))
   }
 }))
