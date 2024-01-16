@@ -35,8 +35,6 @@ export function App() {
         stompClient.subscribe('/topic/messages', (message) => {
           const newMessage = JSON.parse(message.body)
 
-          console.log(newMessage)
-
           addMessage(newMessage as ChatMessage)
         })
       })

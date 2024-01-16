@@ -11,6 +11,7 @@ interface Store {
 }
 
 export interface ChatMessage {
+  id: string
   sender: string
   content: string
 }
