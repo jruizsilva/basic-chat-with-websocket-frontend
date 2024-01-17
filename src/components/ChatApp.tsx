@@ -19,10 +19,11 @@ import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 interface Props {}
 
 export function ChatApp(props: Props): JSX.Element {
+  useUsersQuery()
   const user = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
-  const { users } = useUsersQuery()
+  const users = useAppStore((store) => store.users)
   const [message, setMessage] = useState('')
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,6 +40,7 @@ export function ChatApp(props: Props): JSX.Element {
     stompClient.send('/app/chat', {}, JSON.stringify(chatMessage))
     setMessage('')
   }
+
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value)
   }

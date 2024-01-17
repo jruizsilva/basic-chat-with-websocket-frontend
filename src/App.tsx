@@ -19,7 +19,8 @@ import { useLogoutMutation } from 'hooks/mutation/useLogoutMutation'
 import {
   useAppStore,
   type ChatMessage,
-  type UserRequest
+  type UserRequest,
+  type User
 } from 'store/useAppStore'
 
 export function App() {
@@ -28,6 +29,7 @@ export function App() {
   const setUserAuthenticated = useAppStore(
     (store) => store.setUserAuthenticated
   )
+  const setUsers = useAppStore((store) => store.setUsers)
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const addMessage = useAppStore((store) => store.addMessage)
   const setStompClient = useAppStore((store) => store.setStompClient)
@@ -52,10 +54,9 @@ export function App() {
           addMessage(newMessage as ChatMessage)
         })
         stompClient.subscribe('/topic/users', (message) => {
-          const users = JSON.parse(message.body)
+          const users: User[] = JSON.parse(message.body)
 
-          console.log(users)
-          queryClient.invalidateQueries({ queryKey: ['users'] })
+          setUsers(users)
         })
       })
     }
@@ -75,7 +76,8 @@ export function App() {
     setStompClient,
     logout,
     setUserAuthenticated,
-    queryClient
+    queryClient,
+    setUsers
   ])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
