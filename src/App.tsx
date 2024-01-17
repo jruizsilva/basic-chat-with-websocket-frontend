@@ -90,7 +90,7 @@ export function App() {
   return (
     <>
       <Box borderBottom='1px' borderColor='gray.200' mb={8}>
-        <Box maxW={'480px'} mx={'auto'}>
+        <Box maxW={{ base: '480px', sm: '768px', md: '992px' }} mx={'auto'}>
           <Box display={'flex'} py={4}>
             <Heading mr={'auto'} size={'lg'}>
               Chat app
@@ -119,7 +119,7 @@ export function App() {
           </Box>
         </Box>
       </Box>
-      <Box maxW={'480px'} mx={'auto'}>
+      <Box maxW={{ base: '480px' }} mx={'auto'}>
         {userAuthenticated === null && (
           <>
             <Box>
@@ -142,6 +142,8 @@ export function App() {
             </Box>
           </>
         )}
+      </Box>
+      <Box maxW={{ base: '480px', sm: '768px', md: '992px' }} mx={'auto'}>
         {userAuthenticated !== null && (
           <Box display={'flex'} flexDir={'column'} gap={6}>
             <Text fontSize={'2xl'}>Welcome {userAuthenticated.username}</Text>
