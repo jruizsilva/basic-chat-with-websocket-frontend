@@ -18,7 +18,7 @@ import { type ChatMessage, useAppStore } from 'store/useAppStore'
 interface Props {}
 
 export function ChatApp(props: Props): JSX.Element {
-  const user = useAppStore((store) => store.user)
+  const user = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
   const [message, setMessage] = useState('')
@@ -29,7 +29,7 @@ export function ChatApp(props: Props): JSX.Element {
       return
 
     const chatMessage: ChatMessage = {
-      sender: user,
+      sender: user.username,
       content: message,
       id: uuidv4()
     }

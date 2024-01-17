@@ -13,25 +13,25 @@ import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
 import { ChatApp } from 'components/ChatApp'
+import { useAddUserMutation } from 'hooks/mutation/useAddUserMutation'
 import {
-  type ChatMessage,
   useAppStore,
-  type User,
-  type UserRequest,
+  type ChatMessage,
   type UserRequest
 } from 'store/useAppStore'
-import { capitalize } from 'utils/capitalize'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
-  const setUser = useAppStore((store) => store.setUser)
-  const user = useAppStore((store) => store.user)
+  const setUserAuthenticated = useAppStore(
+    (store) => store.setUserAuthenticated
+  )
+  const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const addMessage = useAppStore((store) => store.addMessage)
-
+  const { addUser } = useAddUserMutation()
   const setStompClient = useAppStore((store) => store.setStompClient)
 
   useEffect(() => {
-    if (user !== null && stompClient === null) {
+    if (userAuthenticated !== null && stompClient === null) {
       const socket = new SockJS('http://localhost:8080/ws')
 
       const stompClient = Stomp.over(socket)
@@ -48,6 +48,8 @@ export function App() {
         stompClient.subscribe('/topic/users/public', (message) => {
           const users = JSON.parse(message.body)
 
+          console.log(users)
+
           addMessage(users as ChatMessage)
         })
       })
@@ -61,7 +63,7 @@ export function App() {
         })
       }
     }
-  }, [user, addMessage, stompClient, setStompClient])
+  }, [userAuthenticated, addMessage, stompClient, setStompClient])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -69,18 +71,21 @@ export function App() {
     const username = formData.get('username') as string
 
     const user: UserRequest = {
-      username: capitalize(username)
+      username
     }
 
-    stompClient.send
-    setUser(user)
+    addUser(user)
   }
   const handleLogout = () => {
-    setUser(null)
-    if (user === null && stompClient !== null && stompClient.connected) {
+    if (
+      userAuthenticated !== null &&
+      stompClient !== null &&
+      stompClient.connected
+    ) {
       stompClient.disconnect(() => {
         console.log('web socket disconnected')
         setStompClient(null)
+        setUserAuthenticated(null)
       })
     }
   }
@@ -93,7 +98,7 @@ export function App() {
             <Heading mr={'auto'} size={'lg'}>
               Chat app
             </Heading>
-            {user !== null && (
+            {userAuthenticated !== null && (
               <Box
                 alignContent={'center'}
                 display={'flex'}
@@ -106,8 +111,8 @@ export function App() {
                   gap={2}
                   justifyContent={'center'}
                 >
-                  <Avatar name={user} size={'sm'} />
-                  <Text fontSize={'2xl'}>{user}</Text>
+                  <Avatar name={userAuthenticated.username} size={'sm'} />
+                  <Text fontSize={'2xl'}>{userAuthenticated.username}</Text>
                 </Box>
                 <Button variant={'outline'} onClick={handleLogout}>
                   Logout
@@ -118,7 +123,7 @@ export function App() {
         </Box>
       </Box>
       <Box maxW={'480px'} mx={'auto'}>
-        {user === null && (
+        {userAuthenticated === null && (
           <>
             <Box>
               <Heading mb={5} size={'lg'}>
@@ -140,9 +145,9 @@ export function App() {
             </Box>
           </>
         )}
-        {user !== null && (
+        {userAuthenticated !== null && (
           <Box display={'flex'} flexDir={'column'} gap={6}>
-            <Text fontSize={'2xl'}>Welcome {user}</Text>
+            <Text fontSize={'2xl'}>Welcome {userAuthenticated.username}</Text>
             <ChatApp />
           </Box>
         )}

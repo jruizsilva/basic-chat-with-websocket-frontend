@@ -2,11 +2,11 @@ import { create } from 'zustand'
 import type Stomp from 'stompjs'
 
 interface Store {
-  user: User | null
+  userAuthenticated: User | null
   users: User[] | []
   stompClient: Stomp.Client | null
   messages: ChatMessage[] | []
-  setUser: (user: User | null) => void
+  setUserAuthenticated: (user: User | null) => void
   setUsers: (users: User[] | []) => void
   setStompClient: (stompClient: Stomp.Client | null) => void
   addMessage: (chatMessage: ChatMessage) => void
@@ -26,9 +26,9 @@ export interface UserRequest {
 }
 
 export const useAppStore = create<Store>()((set) => ({
-  user: null,
-  setUser: (user: User | null) => {
-    set(() => ({ user }))
+  userAuthenticated: null,
+  setUserAuthenticated: (userAuthenticated: User | null) => {
+    set(() => ({ userAuthenticated }))
   },
   stompClient: null,
   setStompClient: (stompClient: Stomp.Client | null) => {
