@@ -25,8 +25,6 @@ export function ChatApp(props: Props): JSX.Element {
   const { users } = useUsersQuery()
   const [message, setMessage] = useState('')
 
-  console.log(users)
-
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (message.trim().length === 0 || stompClient === null || user === null)

@@ -32,9 +32,8 @@ export const useAppStore = create<Store>()(
     (set) => ({
       userAuthenticated: null,
       setUserAuthenticated: (userAuthenticated: User) => {
-        set((store) => ({
-          userAuthenticated,
-          users: [...store.users, userAuthenticated]
+        set(() => ({
+          userAuthenticated
         }))
       },
       stompClient: null,
