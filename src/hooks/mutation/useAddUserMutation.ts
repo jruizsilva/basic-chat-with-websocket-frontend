@@ -9,7 +9,7 @@ export const useAddUserMutation = () => {
   const setUserAuthenticated = useAppStore(
     (store) => store.setUserAuthenticated
   )
-  const { mutate: addUser, ...rest } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationKey: ['addUser'],
     mutationFn: async (userRequest: UserRequest) => {
       return await fetchAddUser(userRequest)
@@ -28,5 +28,5 @@ export const useAddUserMutation = () => {
     }
   })
 
-  return { addUser, ...rest }
+  return { addUser: mutate, ...rest }
 }

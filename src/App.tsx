@@ -8,27 +8,33 @@ import {
   Input,
   Text
 } from '@chakra-ui/react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
 import { ChatApp } from 'components/ChatApp'
 import { useAddUserMutation } from 'hooks/mutation/useAddUserMutation'
+import { useLogoutMutation } from 'hooks/mutation/useLogoutMutation'
 import {
   useAppStore,
   type ChatMessage,
-  type UserRequest,
-  type User
+  type UserRequest
 } from 'store/useAppStore'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
+  const setUserAuthenticated = useAppStore(
+    (store) => store.setUserAuthenticated
+  )
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
-  const setUsers = useAppStore((store) => store.setUsers)
   const addMessage = useAppStore((store) => store.addMessage)
-  const { addUser } = useAddUserMutation()
   const setStompClient = useAppStore((store) => store.setStompClient)
+  const { logoutUser } = useLogoutMutation()
+  const queryClient = useQueryClient()
+
+  const { addUser } = useAddUserMutation()
 
   useEffect(() => {
     if (userAuthenticated !== null && stompClient === null) {
@@ -45,12 +51,11 @@ export function App() {
 
           addMessage(newMessage as ChatMessage)
         })
-        stompClient.subscribe('/topic/users/public', (message) => {
+        stompClient.subscribe('/topic/users', (message) => {
           const users = JSON.parse(message.body)
 
           console.log(users)
-
-          setUsers(users as User[])
+          queryClient.invalidateQueries({ queryKey: ['users'] })
         })
       })
     }
@@ -68,8 +73,9 @@ export function App() {
     addMessage,
     stompClient,
     setStompClient,
-    setUsers,
-    logout
+    logout,
+    setUserAuthenticated,
+    queryClient
   ])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,16 +90,12 @@ export function App() {
     addUser(user)
   }
   const handleLogout = () => {
-    stompClient?.send(
-      '/app/users/logout',
-      {},
-      JSON.stringify(userAuthenticated)
-    )
     if (
       userAuthenticated !== null &&
       stompClient !== null &&
       stompClient.connected
     ) {
+      logoutUser(userAuthenticated)
       stompClient.disconnect(() => {
         console.log('web socket disconnected')
         logout()
