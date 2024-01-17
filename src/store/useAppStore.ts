@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type Stomp from 'stompjs'
+import { persist } from 'zustand/middleware'
 
 interface Store {
   userAuthenticated: User | null
@@ -26,27 +27,34 @@ export interface UserRequest {
   username: string
 }
 
-export const useAppStore = create<Store>()((set) => ({
-  userAuthenticated: null,
-  setUserAuthenticated: (userAuthenticated: User) => {
-    set((store) => ({
-      userAuthenticated,
-      users: [...store.users, userAuthenticated]
-    }))
-  },
-  stompClient: null,
-  setStompClient: (stompClient: Stomp.Client) => {
-    set(() => ({ stompClient }))
-  },
-  messages: [],
-  addMessage: (chatMessage: ChatMessage) => {
-    set((store) => ({ messages: [...store.messages, chatMessage] }))
-  },
-  users: [],
-  setUsers: (users: User[] | []) => {
-    set(() => ({ users }))
-  },
-  logout: () => {
-    set(() => ({ userAuthenticated: null, stompClient: null }))
-  }
-}))
+export const useAppStore = create<Store>()(
+  persist(
+    (set) => ({
+      userAuthenticated: null,
+      setUserAuthenticated: (userAuthenticated: User) => {
+        set((store) => ({
+          userAuthenticated,
+          users: [...store.users, userAuthenticated]
+        }))
+      },
+      stompClient: null,
+      setStompClient: (stompClient: Stomp.Client) => {
+        set(() => ({ stompClient }))
+      },
+      messages: [],
+      addMessage: (chatMessage: ChatMessage) => {
+        set((store) => ({ messages: [...store.messages, chatMessage] }))
+      },
+      users: [],
+      setUsers: (users: User[] | []) => {
+        set(() => ({ users }))
+      },
+      logout: () => {
+        set(() => ({ userAuthenticated: null, stompClient: null }))
+      }
+    }),
+    {
+      name: 'userAuthenticated' // name of the item in the storage (must be unique)
+    }
+  )
+)

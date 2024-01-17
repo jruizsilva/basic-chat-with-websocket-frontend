@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 
-import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react'
 import { App } from 'App'
 import { ToastContainer } from 'react-toastify'
 
@@ -10,8 +10,15 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const queryClient = new QueryClient()
 
+const config = {
+  initialColorMode: 'dark',
+  useSystemColorMode: false
+}
+
+const theme = extendTheme({ config })
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <QueryClientProvider client={queryClient}>
       <App />

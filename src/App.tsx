@@ -17,13 +17,15 @@ import { useAddUserMutation } from 'hooks/mutation/useAddUserMutation'
 import {
   useAppStore,
   type ChatMessage,
-  type UserRequest
+  type UserRequest,
+  type User
 } from 'store/useAppStore'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
+  const setUsers = useAppStore((store) => store.setUsers)
   const addMessage = useAppStore((store) => store.addMessage)
   const { addUser } = useAddUserMutation()
   const setStompClient = useAppStore((store) => store.setStompClient)
@@ -48,7 +50,7 @@ export function App() {
 
           console.log(users)
 
-          addMessage(users as ChatMessage)
+          setUsers(users as User[])
         })
       })
     }
@@ -61,7 +63,14 @@ export function App() {
         })
       }
     }
-  }, [userAuthenticated, addMessage, stompClient, setStompClient, logout])
+  }, [
+    userAuthenticated,
+    addMessage,
+    stompClient,
+    setStompClient,
+    setUsers,
+    logout
+  ])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -75,6 +84,11 @@ export function App() {
     addUser(user)
   }
   const handleLogout = () => {
+    stompClient?.send(
+      '/app/users/logout',
+      {},
+      JSON.stringify(userAuthenticated)
+    )
     if (
       userAuthenticated !== null &&
       stompClient !== null &&

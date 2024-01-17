@@ -8,3 +8,10 @@ export const fetchAddUser = async (userRequest: UserRequest) => {
 
   return data
 }
+
+export const fetchAllUserOnline = async () => {
+  const response = await publicInstance.get<User[]>('/users')
+  const data = response.data
+
+  return data
+}
