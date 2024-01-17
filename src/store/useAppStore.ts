@@ -6,10 +6,11 @@ interface Store {
   users: User[] | []
   stompClient: Stomp.Client | null
   messages: ChatMessage[] | []
-  setUserAuthenticated: (user: User | null) => void
+  setUserAuthenticated: (user: User) => void
   setUsers: (users: User[] | []) => void
-  setStompClient: (stompClient: Stomp.Client | null) => void
+  setStompClient: (stompClient: Stomp.Client) => void
   addMessage: (chatMessage: ChatMessage) => void
+  logout: () => void
 }
 
 export interface ChatMessage {
@@ -27,11 +28,14 @@ export interface UserRequest {
 
 export const useAppStore = create<Store>()((set) => ({
   userAuthenticated: null,
-  setUserAuthenticated: (userAuthenticated: User | null) => {
-    set(() => ({ userAuthenticated }))
+  setUserAuthenticated: (userAuthenticated: User) => {
+    set((store) => ({
+      userAuthenticated,
+      users: [...store.users, userAuthenticated]
+    }))
   },
   stompClient: null,
-  setStompClient: (stompClient: Stomp.Client | null) => {
+  setStompClient: (stompClient: Stomp.Client) => {
     set(() => ({ stompClient }))
   },
   messages: [],
@@ -41,5 +45,8 @@ export const useAppStore = create<Store>()((set) => ({
   users: [],
   setUsers: (users: User[] | []) => {
     set(() => ({ users }))
+  },
+  logout: () => {
+    set(() => ({ userAuthenticated: null, stompClient: null }))
   }
 }))

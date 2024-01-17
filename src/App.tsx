@@ -22,9 +22,7 @@ import {
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
-  const setUserAuthenticated = useAppStore(
-    (store) => store.setUserAuthenticated
-  )
+  const logout = useAppStore((store) => store.logout)
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const addMessage = useAppStore((store) => store.addMessage)
   const { addUser } = useAddUserMutation()
@@ -59,11 +57,11 @@ export function App() {
       if (stompClient !== null && stompClient.connected) {
         stompClient.disconnect(() => {
           console.log('web socket disconnected')
-          setStompClient(null)
+          logout()
         })
       }
     }
-  }, [userAuthenticated, addMessage, stompClient, setStompClient])
+  }, [userAuthenticated, addMessage, stompClient, setStompClient, logout])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -84,8 +82,7 @@ export function App() {
     ) {
       stompClient.disconnect(() => {
         console.log('web socket disconnected')
-        setStompClient(null)
-        setUserAuthenticated(null)
+        logout()
       })
     }
   }

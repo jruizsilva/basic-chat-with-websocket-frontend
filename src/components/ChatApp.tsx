@@ -21,6 +21,7 @@ export function ChatApp(props: Props): JSX.Element {
   const user = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
+  const users = useAppStore((store) => store.users)
   const [message, setMessage] = useState('')
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
