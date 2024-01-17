@@ -71,7 +71,6 @@ export function App() {
       ) {
         stompClient.disconnect(() => {
           console.log('web socket disconnected')
-          logoutUser(userAuthenticated)
           logout()
         })
       }
@@ -87,6 +86,19 @@ export function App() {
     setUsers,
     logoutUser
   ])
+
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     if (userAuthenticated === null) return
+  //     logoutUser(userAuthenticated)
+  //   }
+
+  //   window.addEventListener('beforeunload', handleBeforeUnload)
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload)
+  //   }
+  // }, [logoutUser, userAuthenticated])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

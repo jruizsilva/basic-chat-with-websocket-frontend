@@ -6,7 +6,6 @@ import { fetchAddUser } from 'services/users'
 import { useAppStore, type User, type UserRequest } from 'store/useAppStore'
 
 export const useAddUserMutation = () => {
-  const queryClient = useQueryClient()
   const setUserAuthenticated = useAppStore(
     (store) => store.setUserAuthenticated
   )
@@ -18,7 +17,6 @@ export const useAddUserMutation = () => {
     onSuccess: (userAuthenticated: User) => {
       setUserAuthenticated(userAuthenticated)
       toast.success('Login successfuly')
-      queryClient.invalidateQueries({ queryKey: ['users'] })
     },
     onError: (error: AxiosError) => {
       const errorMessage =

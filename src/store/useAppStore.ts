@@ -36,7 +36,10 @@ const initialValues = {
 export const useAppStore = create<Store>()((set) => ({
   ...initialValues,
   setUserAuthenticated: (userAuthenticated: User) => {
-    set(() => ({ userAuthenticated }))
+    set((store) => ({
+      userAuthenticated,
+      users: [...store.users, userAuthenticated]
+    }))
   },
   setStompClient: (stompClient: Stomp.Client) => {
     set(() => ({ stompClient }))
