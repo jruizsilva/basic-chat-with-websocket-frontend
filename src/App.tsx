@@ -19,13 +19,11 @@ import { useLogoutMutation } from 'hooks/mutation/useLogoutMutation'
 import {
   useAppStore,
   type ChatMessage,
-  type UserRequest,
-  type User
+  type User,
+  type UserRequest
 } from 'store/useAppStore'
-import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 
 export function App() {
-  useUsersQuery()
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
   const setUserAuthenticated = useAppStore(
@@ -58,7 +56,9 @@ export function App() {
         stompClient.subscribe('/topic/users', (message) => {
           const users: User[] = JSON.parse(message.body)
 
-          setUsers(users)
+          console.log(users)
+
+          queryClient.invalidateQueries({ queryKey: ['users'] })
         })
       })
     }
@@ -87,18 +87,18 @@ export function App() {
     logoutUser
   ])
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     if (userAuthenticated === null) return
-  //     logoutUser(userAuthenticated)
-  //   }
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (userAuthenticated === null) return
+      logoutUser(userAuthenticated)
+    }
 
-  //   window.addEventListener('beforeunload', handleBeforeUnload)
+    window.addEventListener('beforeunload', handleBeforeUnload)
 
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleBeforeUnload)
-  //   }
-  // }, [logoutUser, userAuthenticated])
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [logoutUser, userAuthenticated])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
