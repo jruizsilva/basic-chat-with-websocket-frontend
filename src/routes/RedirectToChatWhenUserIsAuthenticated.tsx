@@ -5,5 +5,5 @@ import { useAppStore } from 'store/useAppStore'
 export const RedirectToChatWhenUserIsAuthenticated = () => {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
-  return userAuthenticated === null ? <Outlet /> : <Navigate to='/chat' />
+  return userAuthenticated !== null ? <Navigate to='/chat' /> : <Outlet />
 }

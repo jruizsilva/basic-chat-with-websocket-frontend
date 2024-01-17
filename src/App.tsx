@@ -3,10 +3,9 @@ import { useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
-import { Navbar } from 'components/Navbar'
 import { useLogoutMutation } from 'hooks/mutation/useLogoutMutation'
-import { HomePage } from 'pages/home/HomePage'
-import { useAppStore, type ChatMessage, type User } from 'store/useAppStore'
+import { MainRouter } from 'routes/MainRouter'
+import { useAppStore, type ChatMessage } from 'store/useAppStore'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
@@ -37,10 +36,6 @@ export function App() {
           addMessage(newMessage as ChatMessage)
         })
         stompClient.subscribe('/topic/users', (message) => {
-          const users: User[] = JSON.parse(message.body)
-
-          console.log(users)
-
           queryClient.invalidateQueries({ queryKey: ['users'] })
         })
       })
@@ -83,10 +78,5 @@ export function App() {
     }
   }, [logoutUser, userAuthenticated])
 
-  return (
-    <>
-      <Navbar />
-      <HomePage />
-    </>
-  )
+  return <MainRouter />
 }

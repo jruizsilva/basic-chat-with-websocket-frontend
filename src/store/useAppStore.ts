@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type Stomp from 'stompjs'
+import { devtools } from 'zustand/middleware'
 
 interface Store {
   userAuthenticated: User | null
@@ -33,24 +34,26 @@ const initialValues = {
   users: []
 }
 
-export const useAppStore = create<Store>()((set) => ({
-  ...initialValues,
-  setUserAuthenticated: (userAuthenticated: User) => {
-    set((store) => ({
-      userAuthenticated,
-      users: [...store.users, userAuthenticated]
-    }))
-  },
-  setStompClient: (stompClient: Stomp.Client) => {
-    set(() => ({ stompClient }))
-  },
-  addMessage: (chatMessage: ChatMessage) => {
-    set((store) => ({ messages: [...store.messages, chatMessage] }))
-  },
-  logout: () => {
-    set(() => ({ userAuthenticated: null, stompClient: null }))
-  },
-  setUsers: (users: User[]) => {
-    set(() => ({ users }))
-  }
-}))
+export const useAppStore = create(
+  devtools<Store>((set) => ({
+    ...initialValues,
+    setUserAuthenticated: (userAuthenticated: User) => {
+      set((store) => ({
+        userAuthenticated,
+        users: [...store.users, userAuthenticated]
+      }))
+    },
+    setStompClient: (stompClient: Stomp.Client) => {
+      set(() => ({ stompClient }))
+    },
+    addMessage: (chatMessage: ChatMessage) => {
+      set((store) => ({ messages: [...store.messages, chatMessage] }))
+    },
+    logout: () => {
+      set(() => ({ userAuthenticated: null, stompClient: null }))
+    },
+    setUsers: (users: User[]) => {
+      set(() => ({ users }))
+    }
+  }))
+)
