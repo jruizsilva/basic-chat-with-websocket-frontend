@@ -22,8 +22,10 @@ import {
   type UserRequest,
   type User
 } from 'store/useAppStore'
+import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 
 export function App() {
+  useUsersQuery()
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
   const setUserAuthenticated = useAppStore(
@@ -62,9 +64,14 @@ export function App() {
     }
 
     return () => {
-      if (stompClient !== null && stompClient.connected) {
+      if (
+        stompClient !== null &&
+        stompClient.connected &&
+        userAuthenticated !== null
+      ) {
         stompClient.disconnect(() => {
           console.log('web socket disconnected')
+          logoutUser(userAuthenticated)
           logout()
         })
       }
@@ -77,7 +84,8 @@ export function App() {
     logout,
     setUserAuthenticated,
     queryClient,
-    setUsers
+    setUsers,
+    logoutUser
   ])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

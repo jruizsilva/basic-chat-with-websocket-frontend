@@ -14,17 +14,17 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useAppStore, type ChatMessage } from 'store/useAppStore'
-import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 
 interface Props {}
 
 export function ChatApp(props: Props): JSX.Element {
-  useUsersQuery()
   const user = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
   const users = useAppStore((store) => store.users)
   const [message, setMessage] = useState('')
+
+  console.log(users)
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
