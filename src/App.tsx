@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Avatar,
   Box,
   Button,
@@ -162,14 +164,16 @@ export function App() {
           <>
             <Box>
               <Heading mb={5} size={'lg'}>
-                Login
+                Welcome to Chat app!
               </Heading>
+              <Text mb={5}>Please write your username to start chatting</Text>
             </Box>
             <Box
               as={'form'}
               display={'flex'}
               flexDirection={'column'}
               gap={4}
+              mb={'16px'}
               onSubmit={handleSubmit}
             >
               <FormControl>
@@ -178,6 +182,10 @@ export function App() {
               </FormControl>
               <Button type='submit'>Login</Button>
             </Box>
+            <Alert status='warning'>
+              <AlertIcon />
+              Your account will be delete when you close the browser.
+            </Alert>
           </>
         )}
       </Box>

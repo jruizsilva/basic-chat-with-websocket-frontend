@@ -51,7 +51,7 @@ export function ChatApp(props: Props): JSX.Element {
   return (
     <Box display={'flex'} gap={'64px'} justifyContent={'space-between'}>
       <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-        <Heading>Usuarios</Heading>
+        <Heading>Usuarios conectados</Heading>
         <Box backgroundColor={'gray.700'} borderRadius={'8px'} height={'300px'}>
           <List height={'100%'} overflow={'auto'} padding={'16px'}>
             {users.map((item) => (
