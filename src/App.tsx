@@ -30,7 +30,7 @@ export function App() {
 
       stompClient.connect({}, () => {
         console.log('connected')
-        stompClient.subscribe('/topic/messages', (message) => {
+        stompClient.subscribe('/topic/public-messages', (message) => {
           const newMessage = JSON.parse(message.body)
 
           addMessage(newMessage as PublicMessage)

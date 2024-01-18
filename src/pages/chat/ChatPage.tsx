@@ -1,11 +1,16 @@
 import { Box, Text } from '@chakra-ui/react'
 
 import { ChatApp } from 'components/ChatApp'
+import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
+import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function ChatPage(props: Props): JSX.Element {
+  usePublicMessagesQuery()
+  useUsersQuery()
+
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
   return (

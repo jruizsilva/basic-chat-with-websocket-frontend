@@ -14,13 +14,11 @@ import { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useAddPublicMessageMutation } from 'hooks/mutation/useAddPublicMessageMutation'
-import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function GlobalMensagges(props: Props): JSX.Element {
-  usePublicMessagesQuery()
   const { addPublicMessage } = useAddPublicMessageMutation()
 
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)

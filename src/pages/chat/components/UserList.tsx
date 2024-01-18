@@ -1,7 +1,7 @@
-import { List, ListItem, Avatar, Text } from '@chakra-ui/react'
+import { Avatar, List, ListItem, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 
-import { type User, useAppStore } from 'store/useAppStore'
+import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
