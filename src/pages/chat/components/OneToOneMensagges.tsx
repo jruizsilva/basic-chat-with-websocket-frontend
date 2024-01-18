@@ -11,13 +11,15 @@ import {
   Text
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
+import { useAddPrivateMessageToPrivateChatMutation } from 'hooks/mutation/useAddPrivateMessageToPrivateChatMutation'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function OneToOneMensagges(props: Props): JSX.Element {
+  const { addPrivateMessageToPrivateChat } =
+    useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
@@ -30,24 +32,21 @@ export function OneToOneMensagges(props: Props): JSX.Element {
       message.trim().length === 0 ||
       stompClient === null ||
       userAuthenticated === null ||
-      userSelected === null
+      userSelected === null ||
+      privateChat === null
     )
       return
 
-    const chatMessage: PrivateMessage = {
+    const addPrivateMessageRequest: AddPrivateMessageRequest = {
       sender: userAuthenticated.username,
       receiver: userSelected.username,
       content: message,
-      id: uuidv4()
+      chatName: privateChat.chatName
     }
 
-    console.log('chatMessage', chatMessage)
+    console.log('privateMessageRequest', addPrivateMessageRequest)
+    addPrivateMessageToPrivateChat(addPrivateMessageRequest)
 
-    stompClient.send(
-      `/app/chat/${userSelected.username}`,
-      {},
-      JSON.stringify(chatMessage)
-    )
     setMessage('')
   }
 

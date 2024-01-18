@@ -12,12 +12,11 @@ export const fetchCreatePrivateChat = async (
   return privateChat
 }
 
-export const fetchAddMessageToPrivateChat = async ({
-  chatName,
-  ...addPrivateMessageRequest
-}: AddPrivateMessageRequest) => {
+export const fetchAddPrivateMessageToPrivateChat = async (
+  addPrivateMessageRequest: AddPrivateMessageRequest
+) => {
   const response = await publicInstance.patch<PrivateChat>(
-    `/private-chat?chatName=${chatName}`,
+    `/private-chat`,
     addPrivateMessageRequest
   )
   const privateChat = response.data

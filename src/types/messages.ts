@@ -13,5 +13,7 @@ interface PrivateMessage {
   receiver: string
 }
 
-type PrivateMessageRequest = Omit<PublicMessage, 'id'>
-type AddPrivateMessageRequest = Omit<PublicMessage, 'id'> & { chatName: string }
+type PrivateMessageRequest = Omit<PrivateMessage, 'id'>
+type AddPrivateMessageRequest = Omit<PrivateMessage, 'id'> & {
+  chatName: string
+}
