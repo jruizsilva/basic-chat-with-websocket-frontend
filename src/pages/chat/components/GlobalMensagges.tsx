@@ -11,7 +11,6 @@ import {
   Text
 } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 import { useAddPublicMessageMutation } from 'hooks/mutation/useAddPublicMessageMutation'
 import { useAppStore } from 'store/useAppStore'

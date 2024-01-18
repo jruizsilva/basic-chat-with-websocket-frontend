@@ -6,6 +6,7 @@ import Stomp from 'stompjs'
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { MainRouter } from 'routes/MainRouter'
 import { useAppStore } from 'store/useAppStore'
+import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
@@ -19,6 +20,8 @@ export function App() {
   const addMessage = useAppStore((store) => store.addPublicMessage)
   const setStompClient = useAppStore((store) => store.setStompClient)
   const queryClient = useQueryClient()
+  const { deleteAllPublicMessagesBySender } =
+    useDeleteAllPublicMesaggesBySenderMutation()
 
   useEffect(() => {
     if (userAuthenticated !== null && stompClient === null) {
@@ -75,6 +78,7 @@ export function App() {
     const handleBeforeUnload = () => {
       if (userAuthenticated === null) return
       deleteUser(userAuthenticated)
+      deleteAllPublicMessagesBySender(userAuthenticated.username)
     }
 
     window.addEventListener('beforeunload', handleBeforeUnload)
@@ -82,7 +86,7 @@ export function App() {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
     }
-  }, [deleteUser, userAuthenticated])
+  }, [deleteUser, userAuthenticated, deleteAllPublicMessagesBySender])
 
   return <MainRouter />
 }

@@ -18,3 +18,7 @@ export const fetchAllPublicMessages = async () => {
 
   return publicMessages
 }
+
+export const fetchDeleteAllPublicMesaggesBySender = async (sender: string) => {
+  await publicInstance.delete(`/public-messages?sender=${sender}`)
+}
