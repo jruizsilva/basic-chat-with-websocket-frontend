@@ -62,7 +62,7 @@ export function GlobalMensagges(props: Props): JSX.Element {
 
   return (
     <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-      <Heading>Chat general</Heading>
+      <Heading fontSize={'xx-large'}>Chat general</Heading>
       <Box
         backgroundColor={'gray.700'}
         borderRadius={'8px'}
