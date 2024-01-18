@@ -1,26 +1,31 @@
 import {
+  Avatar,
   Box,
+  Button,
   Heading,
+  Input,
+  InputGroup,
+  InputRightElement,
   List,
   ListItem,
-  Avatar,
-  InputGroup,
-  Input,
-  InputRightElement,
-  Button,
   Text
 } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
+import { useAddPublicMessageMutation } from 'hooks/mutation/useAddPublicMessageMutation'
+import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function GlobalMensagges(props: Props): JSX.Element {
+  usePublicMessagesQuery()
+  const { addPublicMessage } = useAddPublicMessageMutation()
+
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
-  const messages = useAppStore((store) => store.publicMessages)
+  const publicMessages = useAppStore((store) => store.publicMessages)
 
   const [message, setMessage] = useState('')
 
@@ -35,18 +40,15 @@ export function GlobalMensagges(props: Props): JSX.Element {
     )
       return
 
-    const chatMessage: PublicMessage = {
+    const publicMessage: PublicMessage = {
       sender: userAuthenticated.username,
       content: message,
       id: uuidv4()
     }
 
-    stompClient.send('/app/chat', {}, JSON.stringify(chatMessage))
+    addPublicMessage(publicMessage)
+
     setMessage('')
-    if (messagesContainer.current !== null) {
-      messagesContainer.current.scrollTop =
-        messagesContainer.current.scrollHeight
-    }
   }
 
   useEffect(() => {
@@ -54,7 +56,7 @@ export function GlobalMensagges(props: Props): JSX.Element {
       messagesContainer.current.scrollTop =
         messagesContainer.current.scrollHeight
     }
-  }, [messages])
+  }, [publicMessages])
 
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value)
@@ -76,7 +78,7 @@ export function GlobalMensagges(props: Props): JSX.Element {
           padding={'16px'}
           spacing={3}
         >
-          {messages.map((item) => (
+          {publicMessages.map((item) => (
             <ListItem key={item.id} display={'flex'} gap={2}>
               <Box
                 display={'flex'}

@@ -3,7 +3,6 @@ import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
 import { fetchDeleteUser } from 'services/users'
-import { type UserRequest } from 'store/useAppStore'
 
 export const useDeleteUserMutation = () => {
   const { mutate, ...rest } = useMutation({

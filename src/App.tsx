@@ -16,7 +16,7 @@ export function App() {
   )
   const setUsers = useAppStore((store) => store.setUsers)
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
-  const addMessage = useAppStore((store) => store.addMessage)
+  const addMessage = useAppStore((store) => store.addPublicMessage)
   const setStompClient = useAppStore((store) => store.setStompClient)
   const queryClient = useQueryClient()
 

@@ -2,20 +2,18 @@ import { useMutation } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-import { fetchAddUser } from 'services/users'
+import { fetchAddPublicMessage } from 'services/messages'
 import { useAppStore } from 'store/useAppStore'
 
-export const useAddUserMutation = () => {
-  const setUserAuthenticated = useAppStore(
-    (store) => store.setUserAuthenticated
-  )
+export const useAddPublicMessageMutation = () => {
+  const addPublicMessage = useAppStore((store) => store.addPublicMessage)
   const { mutate, ...rest } = useMutation({
-    mutationKey: ['addUser'],
-    mutationFn: async (userRequest: UserRequest) => {
-      return await fetchAddUser(userRequest)
+    mutationKey: ['addPublicMessage'],
+    mutationFn: async (publicMessageRequest: PublicMessageRequest) => {
+      return await fetchAddPublicMessage(publicMessageRequest)
     },
-    onSuccess: (userAuthenticated: User) => {
-      setUserAuthenticated(userAuthenticated)
+    onSuccess: (newPublicMessage: PublicMessage) => {
+      addPublicMessage(newPublicMessage)
       toast.success('Login successfuly')
     },
     onError: (error: AxiosError) => {
@@ -28,5 +26,5 @@ export const useAddUserMutation = () => {
     }
   })
 
-  return { addUser: mutate, ...rest }
+  return { addPublicMessage: mutate, ...rest }
 }

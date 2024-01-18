@@ -10,7 +10,7 @@ interface Store {
   userSelected: User | null
   setUserAuthenticated: (user: User) => void
   setStompClient: (stompClient: Stomp.Client) => void
-  addMessage: (chatMessage: PublicMessage) => void
+  addPublicMessage: (chatMessage: PublicMessage) => void
   logout: () => void
   setUsers: (users: User[]) => void
   setUserSelected: (user: User | null) => void
@@ -41,7 +41,7 @@ export const useAppStore = create(
       set(() => ({ publicMessages }))
     },
 
-    addMessage: (chatMessage: PublicMessage) => {
+    addPublicMessage: (chatMessage: PublicMessage) => {
       set((store) => ({
         publicMessages: [...store.publicMessages, chatMessage]
       }))
