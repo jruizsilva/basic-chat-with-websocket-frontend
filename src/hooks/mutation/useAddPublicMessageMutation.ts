@@ -14,7 +14,6 @@ export const useAddPublicMessageMutation = () => {
     },
     onSuccess: (newPublicMessage: PublicMessage) => {
       addPublicMessage(newPublicMessage)
-      toast.success('Login successfuly')
     },
     onError: (error: AxiosError) => {
       const errorMessage =
