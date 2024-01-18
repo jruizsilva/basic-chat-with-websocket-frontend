@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Heading, Text } from '@chakra-ui/react'
 
-import { useLogoutMutation } from 'hooks/mutation/useLogoutMutation'
+import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
@@ -9,15 +9,15 @@ export function Navbar(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
-  const { logoutUser } = useLogoutMutation()
+  const { deleteUser } = useDeleteUserMutation()
 
-  const handleLogout = () => {
+  const handleButtonDelete = () => {
     if (
       userAuthenticated !== null &&
       stompClient !== null &&
       stompClient.connected
     ) {
-      logoutUser(userAuthenticated)
+      deleteUser(userAuthenticated)
       stompClient.disconnect(() => {
         console.log('web socket disconnected')
         logout()
@@ -48,8 +48,8 @@ export function Navbar(props: Props): JSX.Element {
                 <Avatar name={userAuthenticated.username} size={'sm'} />
                 <Text fontSize={'2xl'}>{userAuthenticated.username}</Text>
               </Box>
-              <Button variant={'outline'} onClick={handleLogout}>
-                Logout
+              <Button variant={'outline'} onClick={handleButtonDelete}>
+                Delete user and logout
               </Button>
             </Box>
           )}

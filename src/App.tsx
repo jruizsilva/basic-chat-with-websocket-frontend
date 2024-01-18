@@ -3,14 +3,14 @@ import { useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
-import { useLogoutMutation } from 'hooks/mutation/useLogoutMutation'
+import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { MainRouter } from 'routes/MainRouter'
 import { useAppStore, type ChatMessage } from 'store/useAppStore'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
-  const { logoutUser } = useLogoutMutation()
+  const { deleteUser } = useDeleteUserMutation()
   const setUserAuthenticated = useAppStore(
     (store) => store.setUserAuthenticated
   )
@@ -62,13 +62,13 @@ export function App() {
     setUserAuthenticated,
     queryClient,
     setUsers,
-    logoutUser
+    deleteUser
   ])
 
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (userAuthenticated === null) return
-      logoutUser(userAuthenticated)
+      deleteUser(userAuthenticated)
     }
 
     window.addEventListener('beforeunload', handleBeforeUnload)
@@ -76,7 +76,7 @@ export function App() {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
     }
-  }, [logoutUser, userAuthenticated])
+  }, [deleteUser, userAuthenticated])
 
   return <MainRouter />
 }

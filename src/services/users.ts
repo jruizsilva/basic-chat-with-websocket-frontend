@@ -9,8 +9,8 @@ export const fetchAddUser = async (userRequest: UserRequest) => {
   return data
 }
 
-export const fetchLogoutUser = async (userRequest: UserRequest) => {
-  const response = await publicInstance.patch('/users/logout', userRequest)
+export const fetchDeleteUser = async (userRequest: UserRequest) => {
+  const response = await publicInstance.patch('/users/deleteUser', userRequest)
   const data = response.data
 
   return data
