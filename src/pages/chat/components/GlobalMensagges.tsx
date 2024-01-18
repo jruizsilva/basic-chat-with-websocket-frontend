@@ -38,11 +38,12 @@ export function GlobalMensagges(props: Props): JSX.Element {
     )
       return
 
-    const publicMessage: PublicMessage = {
+    const publicMessage: PublicMessageRequest = {
       sender: userAuthenticated.username,
-      content: message,
-      id: uuidv4()
+      content: message
     }
+
+    console.log(publicMessage)
 
     addPublicMessage(publicMessage)
 

@@ -13,6 +13,7 @@ export const usePublicMessagesQuery = () => {
   })
 
   if (data === undefined) return
+  console.log(data)
   setPublicMessages(data)
 
   return { data, ...rest }
