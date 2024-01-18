@@ -14,3 +14,4 @@ interface PrivateMessage {
 }
 
 type PrivateMessageRequest = Omit<PublicMessage, 'id'>
+type AddPrivateMessageRequest = Omit<PublicMessage, 'id'> & { chatName: string }
