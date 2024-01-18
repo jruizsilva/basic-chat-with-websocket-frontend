@@ -34,28 +34,30 @@ export function UserList(props: Props): JSX.Element {
 
   return (
     <List height={'100%'} overflow={'auto'} padding={'16px'}>
-      {users.map((item) => (
-        <ListItem
-          key={item.id}
-          _hover={{ backgroundColor: 'gray.600', cursor: 'pointer' }}
-          alignItems={'center'}
-          border={'1px solid'}
-          borderColor={
-            userSelected?.id === item.id ? 'gray.600' : 'transparent'
-          }
-          display={'flex'}
-          gap={2}
-          p={2}
-          rounded={'8px'}
-          width={'100%'}
-          onClick={() => {
-            handleSelectUser(item)
-          }}
-        >
-          <Avatar name={item.username} size={'sm'} />
-          <Text>{item.username}</Text>
-        </ListItem>
-      ))}
+      {users
+        .filter((user) => user.id !== userAuthenticated?.id)
+        .map((item) => (
+          <ListItem
+            key={item.id}
+            _hover={{ backgroundColor: 'gray.600', cursor: 'pointer' }}
+            alignItems={'center'}
+            border={'1px solid'}
+            borderColor={
+              userSelected?.id === item.id ? 'gray.600' : 'transparent'
+            }
+            display={'flex'}
+            gap={2}
+            p={2}
+            rounded={'8px'}
+            width={'100%'}
+            onClick={() => {
+              handleSelectUser(item)
+            }}
+          >
+            <Avatar name={item.username} size={'sm'} />
+            <Text>{item.username}</Text>
+          </ListItem>
+        ))}
     </List>
   )
 }
