@@ -15,12 +15,10 @@ export function ChatPage(props: Props): JSX.Element {
 
   return (
     <Box maxW={{ base: '480px', sm: '768px', md: '992px' }} mx={'auto'}>
-      {userAuthenticated !== null && (
-        <Box display={'flex'} flexDir={'column'} gap={6}>
-          <Text fontSize={'2xl'}>Welcome {userAuthenticated.username}</Text>
-          <ChatApp />
-        </Box>
-      )}
+      <Box display={'flex'} flexDir={'column'} gap={6}>
+        <Text fontSize={'2xl'}>Welcome {userAuthenticated?.username}</Text>
+        <ChatApp />
+      </Box>
     </Box>
   )
 }
