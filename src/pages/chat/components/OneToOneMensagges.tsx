@@ -1,5 +1,3 @@
-import console from 'console'
-
 import {
   Avatar,
   Box,
@@ -15,7 +13,7 @@ import {
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { useAppStore, type ChatMessage } from 'store/useAppStore'
+import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
@@ -23,7 +21,7 @@ export function OneToOneMensagges(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
-  const messages = useAppStore((store) => store.messages)
+  const messages = useAppStore((store) => store.publicMessages)
   const [message, setMessage] = useState('')
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,8 +34,9 @@ export function OneToOneMensagges(props: Props): JSX.Element {
     )
       return
 
-    const chatMessage: ChatMessage = {
+    const chatMessage: PrivateMessage = {
       sender: userAuthenticated.username,
+      receiver: userSelected.username,
       content: message,
       id: uuidv4()
     }

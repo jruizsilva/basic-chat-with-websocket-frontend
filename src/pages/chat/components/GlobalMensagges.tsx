@@ -13,14 +13,14 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { type ChatMessage, useAppStore } from 'store/useAppStore'
+import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function GlobalMensagges(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
-  const messages = useAppStore((store) => store.messages)
+  const messages = useAppStore((store) => store.publicMessages)
 
   const [message, setMessage] = useState('')
 
@@ -35,7 +35,7 @@ export function GlobalMensagges(props: Props): JSX.Element {
     )
       return
 
-    const chatMessage: ChatMessage = {
+    const chatMessage: PublicMessage = {
       sender: userAuthenticated.username,
       content: message,
       id: uuidv4()

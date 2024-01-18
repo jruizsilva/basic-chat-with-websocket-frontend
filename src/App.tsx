@@ -5,7 +5,7 @@ import Stomp from 'stompjs'
 
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { MainRouter } from 'routes/MainRouter'
-import { useAppStore, type ChatMessage } from 'store/useAppStore'
+import { useAppStore } from 'store/useAppStore'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
@@ -33,14 +33,14 @@ export function App() {
         stompClient.subscribe('/topic/messages', (message) => {
           const newMessage = JSON.parse(message.body)
 
-          addMessage(newMessage as ChatMessage)
+          addMessage(newMessage as PublicMessage)
         })
         stompClient.subscribe('/topic/users', (message) => {
           queryClient.invalidateQueries({ queryKey: ['users'] })
         })
 
         stompClient.subscribe(
-          `${userAuthenticated.username}/user/queue/messages`,
+          `/user/${userAuthenticated.username}/queue/messages`,
           function (message) {
             console.log(message)
           }

@@ -3,12 +3,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { PrivateRoutes } from './PrivateRoutes'
 import { RedirectToChatWhenUserIsAuthenticated } from './RedirectToChatWhenUserIsAuthenticated'
 
-import { ChatPage } from 'pages/chat/ChatPage'
-import { HomePage } from 'pages/home/HomePage'
 import { Navbar } from 'components/Navbar'
-import { ChatApp } from 'components/ChatApp'
+import { ChatPage } from 'pages/chat/ChatPage'
 import { GlobalMensagges } from 'pages/chat/components/GlobalMensagges'
 import { OneToOneMensagges } from 'pages/chat/components/OneToOneMensagges'
+import { HomePage } from 'pages/home/HomePage'
 
 interface Props {}
 
