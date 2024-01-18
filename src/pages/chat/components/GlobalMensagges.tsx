@@ -21,7 +21,7 @@ export function GlobalMensagges(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
-  const users = useAppStore((store) => store.users)
+
   const [message, setMessage] = useState('')
 
   const messagesContainer = useRef<HTMLUListElement>(null)
@@ -62,7 +62,7 @@ export function GlobalMensagges(props: Props): JSX.Element {
 
   return (
     <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-      <Heading>Lista mensajes</Heading>
+      <Heading>Chat general</Heading>
       <Box
         backgroundColor={'gray.700'}
         borderRadius={'8px'}

@@ -7,11 +7,13 @@ interface Store {
   stompClient: Stomp.Client | null
   messages: ChatMessage[] | []
   users: User[] | []
+  userSelected: User | null
   setUserAuthenticated: (user: User) => void
   setStompClient: (stompClient: Stomp.Client) => void
   addMessage: (chatMessage: ChatMessage) => void
   logout: () => void
   setUsers: (users: User[]) => void
+  setUserSelected: (user: User | null) => void
 }
 
 export interface ChatMessage {
@@ -31,7 +33,8 @@ const initialValues = {
   userAuthenticated: null,
   stompClient: null,
   messages: [],
-  users: []
+  users: [],
+  userSelected: null
 }
 
 export const useAppStore = create(
@@ -54,6 +57,9 @@ export const useAppStore = create(
     },
     setUsers: (users: User[]) => {
       set(() => ({ users }))
+    },
+    setUserSelected: (userSelected: User | null) => {
+      set(() => ({ userSelected }))
     }
   }))
 )
