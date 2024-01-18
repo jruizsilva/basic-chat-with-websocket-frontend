@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useParams } from 'react-router-dom'
 
 import { type ChatMessage, useAppStore } from 'store/useAppStore'
 
@@ -21,8 +22,9 @@ export function OneToOneMensagges(props: Props): JSX.Element {
   const user = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
-  const users = useAppStore((store) => store.users)
   const [message, setMessage] = useState('')
+
+  const params = useParams()
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -45,7 +47,7 @@ export function OneToOneMensagges(props: Props): JSX.Element {
 
   return (
     <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-      <Heading>Lista mensajes</Heading>
+      <Heading>Chat with user: {params?.username}</Heading>
       <Box
         backgroundColor={'gray.700'}
         borderRadius={'8px'}

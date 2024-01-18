@@ -1,4 +1,5 @@
 import { List, ListItem, Avatar, Text } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 import { type User, useAppStore } from 'store/useAppStore'
 
@@ -8,12 +9,15 @@ export function UserList(props: Props): JSX.Element {
   const users = useAppStore((store) => store.users)
   const userSelected = useAppStore((store) => store.userSelected)
   const setUserSelected = useAppStore((store) => store.setUserSelected)
+  const navigate = useNavigate()
 
   const handleSelectUser = (user: User) => {
     if (userSelected?.id === user.id) {
       setUserSelected(null)
+      navigate(`/chat`)
     } else {
       setUserSelected(user)
+      navigate(`/chat/${user.username}`)
     }
   }
 

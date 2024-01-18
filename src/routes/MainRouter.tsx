@@ -21,7 +21,7 @@ export function MainRouter(props: Props): JSX.Element {
           <Route element={<PrivateRoutes />}>
             <Route element={<ChatPage />} path='/chat'>
               <Route index element={<GlobalMensagges />} />
-              <Route element={<OneToOneMensagges />} path=':user' />
+              <Route element={<OneToOneMensagges />} path=':username' />
             </Route>
           </Route>
           <Route element={<RedirectToChatWhenUserIsAuthenticated />}>
