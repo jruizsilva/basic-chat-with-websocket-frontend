@@ -38,6 +38,13 @@ export function App() {
         stompClient.subscribe('/topic/users', (message) => {
           queryClient.invalidateQueries({ queryKey: ['users'] })
         })
+
+        stompClient.subscribe(
+          `${userAuthenticated.username}/user/queue/messages`,
+          function (message) {
+            console.log(message)
+          }
+        )
       })
     }
 

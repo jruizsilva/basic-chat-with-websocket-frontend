@@ -1,43 +1,54 @@
+import console from 'console'
+
 import {
+  Avatar,
   Box,
+  Button,
   Heading,
+  Input,
+  InputGroup,
+  InputRightElement,
   List,
   ListItem,
-  Avatar,
-  InputGroup,
-  Input,
-  InputRightElement,
-  Button,
   Text
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router-dom'
 
-import { type ChatMessage, useAppStore } from 'store/useAppStore'
+import { useAppStore, type ChatMessage } from 'store/useAppStore'
 
 interface Props {}
 
 export function OneToOneMensagges(props: Props): JSX.Element {
-  const user = useAppStore((store) => store.userAuthenticated)
+  const userAuthenticated = useAppStore((store) => store.userAuthenticated)
+  const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
   const messages = useAppStore((store) => store.messages)
   const [message, setMessage] = useState('')
 
-  const params = useParams()
-
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (message.trim().length === 0 || stompClient === null || user === null)
+    if (
+      message.trim().length === 0 ||
+      stompClient === null ||
+      userAuthenticated === null ||
+      userSelected === null
+    )
       return
 
     const chatMessage: ChatMessage = {
-      sender: user.username,
+      sender: userAuthenticated.username,
       content: message,
       id: uuidv4()
     }
 
-    stompClient.send('/app/chat', {}, JSON.stringify(chatMessage))
+    console.log('chatMessage', chatMessage)
+
+    stompClient.send(
+      `/app/chat/${userSelected.username}`,
+      {},
+      JSON.stringify(chatMessage)
+    )
     setMessage('')
   }
 
@@ -47,7 +58,7 @@ export function OneToOneMensagges(props: Props): JSX.Element {
 
   return (
     <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-      <Heading>Chat with user: {params?.username}</Heading>
+      <Heading>Chat with user: {userSelected?.username}</Heading>
       <Box
         backgroundColor={'gray.700'}
         borderRadius={'8px'}
