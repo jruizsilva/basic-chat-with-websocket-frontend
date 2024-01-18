@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { Outlet } from 'react-router-dom'
 
 import { useAppStore, type ChatMessage } from 'store/useAppStore'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
@@ -71,48 +72,7 @@ export function ChatApp(props: Props): JSX.Element {
           </List>
         </Box>
       </Box>
-      <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-        <Heading>Lista mensajes</Heading>
-        <Box
-          backgroundColor={'gray.700'}
-          borderRadius={'8px'}
-          height={'300px'}
-          position={'relative'}
-        >
-          <List height={'240px'} overflow={'auto'} padding={'16px'} spacing={3}>
-            {messages.map((item) => (
-              <ListItem key={item.id} display={'flex'} gap={2}>
-                <Avatar name={item.sender} size={'sm'} />
-                <Text>{item.content}</Text>
-              </ListItem>
-            ))}
-          </List>
-          <Box
-            as={'form'}
-            bottom={'12px'}
-            display={'flex'}
-            left={'12px'}
-            position={'absolute'}
-            right={'8px'}
-            width={'calc(100% - 24px)'}
-            onSubmit={sendMessage}
-          >
-            <InputGroup>
-              <Input value={message} onChange={handleMessageChange} />
-              <InputRightElement width='4.5rem'>
-                <Button
-                  h='1.75rem'
-                  isDisabled={message.trim().length === 0}
-                  size='sm'
-                  type='submit'
-                >
-                  Enviar
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </Box>
-        </Box>
-      </Box>
+      <Outlet />
     </Box>
   )
 }
