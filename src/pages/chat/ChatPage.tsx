@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react'
 
-import { ChatApp } from 'components/ChatApp'
+import { ChatApp } from 'pages/chat/components/ChatApp'
 import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 import { useAppStore } from 'store/useAppStore'

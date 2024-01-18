@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react'
 
 import { useAddUserMutation } from 'hooks/mutation/useAddUserMutation'
-import { type UserRequest } from 'store/useAppStore'
 
 interface Props {}
 
@@ -54,7 +53,7 @@ export function Login(props: Props): JSX.Element {
       </Box>
       <Alert status='warning'>
         <AlertIcon />
-        Your account will be delete when you close the browser.
+        Your account will be delete when you close the page.
       </Alert>
     </>
   )

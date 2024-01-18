@@ -1,5 +1,6 @@
 interface PrivateChat {
   id: number
-  members: User[]
+  chatName: string
   messages: PrivateMessage[]
 }
+type PrivateChatRequest = Omit<PrivateChat, 'id' | 'messages'>

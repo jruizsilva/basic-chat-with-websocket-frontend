@@ -34,7 +34,6 @@ export function App() {
       stompClient.connect({}, () => {
         console.log('connected')
         stompClient.subscribe('/topic/public-messages', (message) => {
-          console.log(message)
           queryClient.invalidateQueries({ queryKey: ['public-messages'] })
         })
         stompClient.subscribe('/topic/users', (message) => {

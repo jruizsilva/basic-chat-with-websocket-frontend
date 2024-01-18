@@ -5,6 +5,7 @@ import { devtools } from 'zustand/middleware'
 interface Store {
   userAuthenticated: User | null
   stompClient: Stomp.Client | null
+  privateChat: PrivateChat | null
   publicMessages: PublicMessage[] | []
   users: User[] | []
   userSelected: User | null
@@ -15,19 +16,17 @@ interface Store {
   setUsers: (users: User[]) => void
   setUserSelected: (user: User | null) => void
   setPublicMessages: (messages: PublicMessage[]) => void
-}
-
-const initialValues = {
-  userAuthenticated: null,
-  stompClient: null,
-  publicMessages: [],
-  users: [],
-  userSelected: null
+  setPrivateChat: (privateChat: PrivateChat | null) => void
 }
 
 export const useAppStore = create(
   devtools<Store>((set) => ({
-    ...initialValues,
+    userAuthenticated: null,
+    stompClient: null,
+    publicMessages: [],
+    users: [],
+    userSelected: null,
+    privateChat: null,
     setUserAuthenticated: (userAuthenticated: User) => {
       set((store) => ({
         userAuthenticated,
@@ -40,7 +39,6 @@ export const useAppStore = create(
     setPublicMessages: (publicMessages: PublicMessage[]) => {
       set(() => ({ publicMessages }))
     },
-
     addPublicMessage: (chatMessage: PublicMessage) => {
       set((store) => ({
         publicMessages: [...store.publicMessages, chatMessage]
@@ -54,6 +52,9 @@ export const useAppStore = create(
     },
     setUserSelected: (userSelected: User | null) => {
       set(() => ({ userSelected }))
+    },
+    setPrivateChat: (privateChat: PrivateChat | null) => {
+      set(() => ({ privateChat }))
     }
   }))
 )

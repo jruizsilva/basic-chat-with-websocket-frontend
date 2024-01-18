@@ -21,7 +21,7 @@ export function OneToOneMensagges(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
-  const messages = useAppStore((store) => store.publicMessages)
+  const privateChat = useAppStore((store) => store.privateChat)
   const [message, setMessage] = useState('')
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +65,7 @@ export function OneToOneMensagges(props: Props): JSX.Element {
         position={'relative'}
       >
         <List height={'240px'} overflow={'auto'} padding={'16px'} spacing={3}>
-          {messages.map((item) => (
+          {privateChat?.messages.map((item) => (
             <ListItem key={item.id} display={'flex'} gap={2}>
               <Avatar name={item.sender} size={'sm'} />
               <Text>{item.content}</Text>
