@@ -15,7 +15,6 @@ export const useCreatePrivateChatMutation = () => {
       return await fetchCreatePrivateChat(privateChatRequest)
     },
     onSuccess: (privateChat: PrivateChat) => {
-      toast.success('chat created successfully')
       setPrivateChat(privateChat)
       navigate(`/chat/${privateChat.chatName}`)
     },

@@ -27,7 +27,7 @@ export function Navbar(props: Props): JSX.Element {
 
   return (
     <Box borderBottom='1px' borderColor='gray.200' mb={8}>
-      <Box maxW={{ base: '480px', sm: '768px', md: '992px' }} mx={'auto'}>
+      <Box maxW={{ base: '480px', sm: '768px' }} mx={'auto'}>
         <Box display={'flex'} py={4}>
           <Heading mr={'auto'} size={'lg'}>
             Chat app

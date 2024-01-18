@@ -12,6 +12,8 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 
+import { UserList } from './UserList'
+
 import { useAddPrivateMessageToPrivateChatMutation } from 'hooks/mutation/useAddPrivateMessageToPrivateChatMutation'
 import { useAppStore } from 'store/useAppStore'
 
@@ -55,45 +57,66 @@ export function OneToOneMensagges(props: Props): JSX.Element {
   }
 
   return (
-    <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-      <Heading>Chat with user: {userSelected?.username}</Heading>
-      <Box
-        backgroundColor={'gray.700'}
-        borderRadius={'8px'}
-        height={'300px'}
-        position={'relative'}
-      >
-        <List height={'240px'} overflow={'auto'} padding={'16px'} spacing={3}>
-          {privateChat?.messages.map((item) => (
-            <ListItem key={item.id} display={'flex'} gap={2}>
-              <Avatar name={item.sender} size={'sm'} />
-              <Text>{item.content}</Text>
-            </ListItem>
-          ))}
-        </List>
+    <Box display={'flex'} gap={'64px'} justifyContent={'space-between'}>
+      <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
+        <Heading>Usuarios conectados</Heading>
+        <Box backgroundColor={'gray.700'} borderRadius={'8px'} height={'300px'}>
+          <UserList />
+        </Box>
+      </Box>
+      <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
+        <Heading>Chat with user: {userSelected?.username}</Heading>
         <Box
-          as={'form'}
-          bottom={'12px'}
-          display={'flex'}
-          left={'12px'}
-          position={'absolute'}
-          right={'8px'}
-          width={'calc(100% - 24px)'}
-          onSubmit={sendMessage}
+          backgroundColor={'gray.700'}
+          borderRadius={'8px'}
+          height={'300px'}
+          position={'relative'}
         >
-          <InputGroup>
-            <Input value={message} onChange={handleMessageChange} />
-            <InputRightElement width='4.5rem'>
-              <Button
-                h='1.75rem'
-                isDisabled={message.trim().length === 0}
-                size='sm'
-                type='submit'
-              >
-                Enviar
-              </Button>
-            </InputRightElement>
-          </InputGroup>
+          <List height={'240px'} overflow={'auto'} padding={'16px'} spacing={3}>
+            {privateChat?.messages.map((item) => (
+              <ListItem key={item.id} display={'flex'} gap={2}>
+                <Box
+                  display={'flex'}
+                  gap={2}
+                  ml={
+                    userAuthenticated?.username === item.sender ? 'auto' : '0'
+                  }
+                >
+                  <Avatar name={item.sender} size={'sm'} />
+                  <Text>
+                    <Text display={'inline-block'} fontWeight={'bold'}>
+                      {item.sender}:
+                    </Text>{' '}
+                    {item.content}
+                  </Text>
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+          <Box
+            as={'form'}
+            bottom={'12px'}
+            display={'flex'}
+            left={'12px'}
+            position={'absolute'}
+            right={'8px'}
+            width={'calc(100% - 24px)'}
+            onSubmit={sendMessage}
+          >
+            <InputGroup>
+              <Input value={message} onChange={handleMessageChange} />
+              <InputRightElement width='4.5rem'>
+                <Button
+                  h='1.75rem'
+                  isDisabled={message.trim().length === 0}
+                  size='sm'
+                  type='submit'
+                >
+                  Enviar
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </Box>
         </Box>
       </Box>
     </Box>
