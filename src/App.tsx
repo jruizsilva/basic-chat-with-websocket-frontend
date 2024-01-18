@@ -32,7 +32,6 @@ export function App() {
       setStompClient(stompClient)
 
       stompClient.connect({}, () => {
-        console.log('connected')
         stompClient.subscribe('/topic/public-messages', (message) => {
           queryClient.invalidateQueries({ queryKey: ['public-messages'] })
         })
@@ -42,9 +41,7 @@ export function App() {
 
         stompClient.subscribe(
           `/user/${userAuthenticated.username}/queue/messages`,
-          function (message) {
-            console.log(message)
-          }
+          function (message) {}
         )
       })
     }
@@ -56,7 +53,6 @@ export function App() {
         userAuthenticated !== null
       ) {
         stompClient.disconnect(() => {
-          console.log('web socket disconnected')
           logout()
         })
       }

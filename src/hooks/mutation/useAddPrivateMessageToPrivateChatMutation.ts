@@ -13,7 +13,6 @@ export const useAddPrivateMessageToPrivateChatMutation = () => {
       return await fetchAddPrivateMessageToPrivateChat(addPrivateMessageRequest)
     },
     onSuccess: (privateChat: PrivateChat) => {
-      console.log(privateChat)
       setPrivateChat(privateChat)
     },
     onError: (error: AxiosError) => {

@@ -46,7 +46,6 @@ export function OneToOneMensagges(props: Props): JSX.Element {
       chatName: privateChat.chatName
     }
 
-    console.log('privateMessageRequest', addPrivateMessageRequest)
     addPrivateMessageToPrivateChat(addPrivateMessageRequest)
 
     setMessage('')

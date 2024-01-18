@@ -1,5 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useMemo } from 'react'
 
 import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
@@ -10,6 +11,12 @@ interface Props {}
 export function ChatPage(props: Props): JSX.Element {
   usePublicMessagesQuery()
   useUsersQuery()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  const pathnameIncludeUsers = useMemo(() => {
+    return pathname.includes('users')
+  }, [pathname])
 
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
@@ -28,12 +35,15 @@ export function ChatPage(props: Props): JSX.Element {
             width={'300px'}
           >
             <Button
-              isActive
               _active={{ backgroundColor: 'gray.800', color: 'white' }}
               color={'#bbb'}
               flexGrow={1}
+              isActive={!pathnameIncludeUsers}
               size={'sm'}
               variant={'unstyled'}
+              onClick={() => {
+                navigate('/chat')
+              }}
             >
               Chat general
             </Button>
@@ -41,8 +51,12 @@ export function ChatPage(props: Props): JSX.Element {
               _active={{ backgroundColor: 'gray.800', color: 'white' }}
               color={'#bbb'}
               flexGrow={1}
+              isActive={pathnameIncludeUsers}
               size={'sm'}
               variant={'unstyled'}
+              onClick={() => {
+                navigate('/chat/users')
+              }}
             >
               Chat usuarios
             </Button>

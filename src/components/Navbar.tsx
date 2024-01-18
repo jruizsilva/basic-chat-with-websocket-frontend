@@ -19,7 +19,6 @@ export function Navbar(props: Props): JSX.Element {
     ) {
       deleteUser(userAuthenticated)
       stompClient.disconnect(() => {
-        console.log('web socket disconnected')
         logout()
       })
     }

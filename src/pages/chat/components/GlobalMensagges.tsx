@@ -42,8 +42,6 @@ export function GlobalMensagges(props: Props): JSX.Element {
       content: message
     }
 
-    console.log(publicMessage)
-
     addPublicMessage(publicMessage)
 
     setMessage('')
