@@ -8,6 +8,8 @@ import { ChatPage } from 'pages/chat/ChatPage'
 import { GlobalMensagges } from 'pages/chat/components/GlobalMensagges'
 import { OneToOneMensagges } from 'pages/chat/components/OneToOneMensagges'
 import { HomePage } from 'pages/home/HomePage'
+import { ChatPanel } from 'pages/chat/components/ChatPanel'
+import { ChatPanelUserUnselected } from 'pages/chat/components/ChatPanelUserUnselected'
 
 interface Props {}
 
@@ -20,7 +22,10 @@ export function MainRouter(props: Props): JSX.Element {
           <Route element={<PrivateRoutes />}>
             <Route element={<ChatPage />} path='/chat'>
               <Route index element={<GlobalMensagges />} />
-              <Route element={<OneToOneMensagges />} path='users' />
+              <Route element={<OneToOneMensagges />} path='users'>
+                <Route index element={<ChatPanelUserUnselected />} />
+                <Route element={<ChatPanel />} path=':username' />
+              </Route>
             </Route>
           </Route>
           <Route element={<RedirectToChatWhenUserIsAuthenticated />}>

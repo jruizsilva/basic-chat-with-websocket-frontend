@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useMemo } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
@@ -13,6 +13,7 @@ export function ChatPage(props: Props): JSX.Element {
   useUsersQuery()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const setUserSelected = useAppStore((store) => store.setUserSelected)
 
   const pathnameIncludeUsers = useMemo(() => {
     return pathname.includes('users')
@@ -56,6 +57,7 @@ export function ChatPage(props: Props): JSX.Element {
               variant={'unstyled'}
               onClick={() => {
                 navigate('/chat/users')
+                setUserSelected(null)
               }}
             >
               Chat usuarios

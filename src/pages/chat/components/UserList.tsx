@@ -25,7 +25,7 @@ export function UserList(props: Props): JSX.Element {
 
     if (userSelected?.id === user.id) {
       setUserSelected(null)
-      navigate(`/chat`)
+      navigate(`/chat/users`)
     } else {
       setUserSelected(user)
       createPrivateChat(privateChatRequest)

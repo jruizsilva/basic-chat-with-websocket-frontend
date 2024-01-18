@@ -16,7 +16,7 @@ export const useCreatePrivateChatMutation = () => {
     },
     onSuccess: (privateChat: PrivateChat) => {
       setPrivateChat(privateChat)
-      navigate(`/chat/${privateChat.chatName}`)
+      navigate(`/chat/users/${privateChat.chatName}`)
     },
     onError: (error: AxiosError) => {
       const errorMessage =
