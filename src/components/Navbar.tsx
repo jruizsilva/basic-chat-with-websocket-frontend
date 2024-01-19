@@ -1,4 +1,6 @@
-import { Avatar, Box, Button, Heading, Text } from '@chakra-ui/react'
+import { Avatar, Box, Heading, Text } from '@chakra-ui/react'
+
+import { UserMenu } from './UserMenu'
 
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { useAppStore } from 'store/useAppStore'
@@ -26,32 +28,12 @@ export function Navbar(props: Props): JSX.Element {
 
   return (
     <Box borderBottom='1px' borderColor='gray.200' mb={8}>
-      <Box maxW={{ base: '480px', sm: '768px' }} mx={'auto'}>
-        <Box display={'flex'} py={4}>
+      <Box maxW={{ base: '480px', sm: '768px' }} mx={'auto'} width={'95%'}>
+        <Box alignItems={'center'} display={'flex'} py={4}>
           <Heading mr={'auto'} size={'lg'}>
             Chat app
           </Heading>
-          {userAuthenticated !== null && (
-            <Box
-              alignContent={'center'}
-              display={'flex'}
-              gap={8}
-              justifyContent={'center'}
-            >
-              <Box
-                alignItems={'center'}
-                display={'flex'}
-                gap={2}
-                justifyContent={'center'}
-              >
-                <Avatar name={userAuthenticated.username} size={'sm'} />
-                <Text fontSize={'2xl'}>{userAuthenticated.username}</Text>
-              </Box>
-              <Button variant={'outline'} onClick={handleButtonDelete}>
-                Delete user and logout
-              </Button>
-            </Box>
-          )}
+          {userAuthenticated !== null && <UserMenu />}
         </Box>
       </Box>
     </Box>

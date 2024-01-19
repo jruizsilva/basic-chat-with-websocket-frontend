@@ -6,7 +6,7 @@ interface Props {}
 
 export function HomePage(props: Props): JSX.Element {
   return (
-    <Box maxW={{ base: '480px' }} mx={'auto'}>
+    <Box maxW={{ base: '480px' }} mx={'auto'} width={'95%'}>
       <Login />
     </Box>
   )

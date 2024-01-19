@@ -1,9 +1,10 @@
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Text } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 import { useAppStore } from 'store/useAppStore'
+import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 
 interface Props {}
 
@@ -33,10 +34,11 @@ export function ChatPage(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
   return (
-    <Box maxW={{ base: '480px', sm: '768px' }} mx={'auto'}>
+    <Box maxW={{ base: '480px', sm: '768px' }} mx={'auto'} width={'95%'}>
       <Box display={'flex'} flexDir={'column'} gap={6}>
         <Text fontSize={'2xl'}>Welcome {userAuthenticated?.username}</Text>
-        <Box maxWidth={'300px'} mx={'auto'}>
+
+        <Box maxWidth={'300px'} mx={'auto'} width={'95%'}>
           <Box
             backgroundColor={'gray.900'}
             display={'flex'}
