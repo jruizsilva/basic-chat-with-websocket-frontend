@@ -23,8 +23,6 @@ export function ChatPanel(props: Props): JSX.Element {
 
   const [privateChat, setPrivateChat] = useState<PrivateChat>(stateData)
 
-  console.log('stateData', stateData)
-  console.log('privateChat', privateChat)
   const { addPrivateMessageToPrivateChat, data: privateChatUpdated } =
     useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
