@@ -20,7 +20,11 @@ interface Props {}
 export function ChatPanel(props: Props): JSX.Element {
   const location = useLocation()
   const stateData: PrivateChat = location.state
+
   const [privateChat, setPrivateChat] = useState<PrivateChat>(stateData)
+
+  console.log('stateData', stateData)
+  console.log('privateChat', privateChat)
   const { addPrivateMessageToPrivateChat, data: privateChatUpdated } =
     useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
@@ -28,13 +32,18 @@ export function ChatPanel(props: Props): JSX.Element {
   const stompClient = useAppStore((store) => store.stompClient)
   const [message, setMessage] = useState('')
 
+  // TODO scroll bottom
+  useEffect(() => {
+    if (stateData !== undefined) {
+      setPrivateChat(stateData)
+    }
+  }, [stateData])
+
   useEffect(() => {
     if (privateChatUpdated !== undefined) {
       setPrivateChat(privateChatUpdated)
     }
   }, [privateChatUpdated])
-
-  console.log(privateChat)
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
