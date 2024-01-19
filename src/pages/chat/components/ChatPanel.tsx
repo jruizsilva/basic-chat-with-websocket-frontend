@@ -9,7 +9,7 @@ import {
   ListItem,
   Text
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { useAddPrivateMessageToPrivateChatMutation } from 'hooks/mutation/useAddPrivateMessageToPrivateChatMutation'
@@ -29,6 +29,7 @@ export function ChatPanel(props: Props): JSX.Element {
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
   const [message, setMessage] = useState('')
+  const messagesContainer = useRef<HTMLUListElement | null>(null)
 
   // TODO scroll bottom
   useEffect(() => {
@@ -42,6 +43,13 @@ export function ChatPanel(props: Props): JSX.Element {
       setPrivateChat(privateChatUpdated)
     }
   }, [privateChatUpdated])
+
+  useEffect(() => {
+    if (messagesContainer.current !== null) {
+      messagesContainer.current.scrollTop =
+        messagesContainer.current.scrollHeight
+    }
+  }, [privateChat.messages])
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -77,7 +85,13 @@ export function ChatPanel(props: Props): JSX.Element {
       height={'300px'}
       position={'relative'}
     >
-      <List height={'240px'} overflow={'auto'} padding={'16px'} spacing={3}>
+      <List
+        ref={messagesContainer}
+        height={'240px'}
+        overflow={'auto'}
+        padding={'16px'}
+        spacing={3}
+      >
         {privateChat?.messages.map((item) => (
           <ListItem key={item.id} display={'flex'} gap={2}>
             <Box
