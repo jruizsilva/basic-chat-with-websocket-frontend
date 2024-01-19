@@ -16,12 +16,15 @@ import { MdDelete } from 'react-icons/md'
 
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { useAppStore } from 'store/useAppStore'
+import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
 
 export function UserMenu() {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
   const { deleteUser } = useDeleteUserMutation()
+  const { deleteAllPublicMessagesBySender } =
+    useDeleteAllPublicMesaggesBySenderMutation()
 
   const handleButtonDelete = () => {
     if (
@@ -30,6 +33,7 @@ export function UserMenu() {
       stompClient.connected
     ) {
       deleteUser(userAuthenticated)
+      deleteAllPublicMessagesBySender(userAuthenticated.username)
       stompClient.disconnect(() => {
         logout()
       })
