@@ -1,4 +1,4 @@
-import { publicInstance } from './api/axios'
+import { publicInstance } from '../api/axios'
 
 export const fetchCreatePrivateChat = async (
   privateChatRequest: PrivateChatRequest

@@ -1,4 +1,4 @@
-import { publicInstance } from './api/axios'
+import { publicInstance } from '../api/axios'
 
 export const fetchAddUser = async (userRequest: UserRequest) => {
   const response = await publicInstance.post<User>('/users', userRequest)
