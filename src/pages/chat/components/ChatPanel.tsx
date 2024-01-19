@@ -9,21 +9,38 @@ import {
   ListItem,
   Text
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { useAddPrivateMessageToPrivateChatMutation } from 'hooks/mutation/useAddPrivateMessageToPrivateChatMutation'
 import { useAppStore } from 'store/useAppStore'
+import { useCreatePrivateChatMutation } from 'hooks/mutation/useCreatePrivateChatMutation'
 
 interface Props {}
 
 export function ChatPanel(props: Props): JSX.Element {
+  const [privateChat, setPrivateChat] = useState<PrivateChat | null>(null)
+  const { createPrivateChat } = useCreatePrivateChatMutation()
   const { addPrivateMessageToPrivateChat } =
     useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
-  const privateChat = useAppStore((store) => store.privateChat)
   const [message, setMessage] = useState('')
+  const params = useParams()
+
+  useEffect(() => {
+    if (params.username === undefined) return
+    const privateChatRequest: PrivateChatRequest = {
+      chatName: params.username
+    }
+
+    createPrivateChat(privateChatRequest)
+  }, [params, createPrivateChat])
+
+  if (privateChat !== null) {
+    setPrivateChat(privateChat)
+  }
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
