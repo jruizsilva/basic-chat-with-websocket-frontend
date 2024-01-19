@@ -6,7 +6,7 @@ import { fetchDeleteUser } from 'services/users'
 
 export const useDeleteUserMutation = () => {
   const { mutate, ...rest } = useMutation({
-    mutationKey: ['logoutUser'],
+    mutationKey: ['deleteUser'],
     mutationFn: async (userRequest: UserRequest) => {
       return await fetchDeleteUser(userRequest)
     },

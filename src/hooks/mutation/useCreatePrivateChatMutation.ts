@@ -8,7 +8,7 @@ import { fetchCreatePrivateChat } from 'services/chat'
 export const useCreatePrivateChatMutation = () => {
   const navigate = useNavigate()
   const { mutate, ...rest } = useMutation({
-    mutationKey: ['addUser'],
+    mutationKey: ['createPrivateChat'],
     mutationFn: async (privateChatRequest: PrivateChatRequest) => {
       return await fetchCreatePrivateChat(privateChatRequest)
     },
