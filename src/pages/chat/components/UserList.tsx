@@ -1,5 +1,5 @@
 import { Avatar, List, ListItem, Text } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { useCreatePrivateChatMutation } from 'hooks/mutation/useCreatePrivateChatMutation'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
@@ -13,6 +13,9 @@ export function UserList(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const setUserSelected = useAppStore((store) => store.setUserSelected)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  console.log(searchParams.get('sender'))
 
   const { createPrivateChat } = useCreatePrivateChatMutation()
 
@@ -25,6 +28,7 @@ export function UserList(props: Props): JSX.Element {
 
     setUserSelected(user)
     createPrivateChat(privateChatRequest)
+    searchParams.delete('sender')
   }
 
   return (
@@ -39,6 +43,11 @@ export function UserList(props: Props): JSX.Element {
                 alignItems={'center'}
                 backgroundColor={
                   userSelected?.id === item.id ? 'gray.600' : 'transparent'
+                }
+                bg={
+                  searchParams.get('sender') === item.username
+                    ? 'red'
+                    : 'transparent'
                 }
                 display={'flex'}
                 gap={2}
