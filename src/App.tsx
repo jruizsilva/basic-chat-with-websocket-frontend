@@ -1,12 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
+import { useEffect } from 'react'
 
 import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { MainRouter } from 'routes/MainRouter'
 import { useAppStore } from 'store/useAppStore'
-import { useEffect } from 'react'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
@@ -47,7 +47,9 @@ export function App() {
 
         stompClient.subscribe(
           `/user/${userAuthenticated.username}/queue/messages`,
-          function (message) {}
+          function (message) {
+            console.log(message)
+          }
         )
       })
     }

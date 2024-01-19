@@ -13,14 +13,14 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useAddPrivateMessageToPrivateChatMutation } from 'hooks/mutation/useAddPrivateMessageToPrivateChatMutation'
-import { useAppStore } from 'store/useAppStore'
 import { useCreatePrivateChatMutation } from 'hooks/mutation/useCreatePrivateChatMutation'
+import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function ChatPanel(props: Props): JSX.Element {
   const [privateChat, setPrivateChat] = useState<PrivateChat | null>(null)
-  const { createPrivateChat } = useCreatePrivateChatMutation()
+  const { createPrivateChat, data } = useCreatePrivateChatMutation()
   const { addPrivateMessageToPrivateChat } =
     useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
@@ -30,17 +30,20 @@ export function ChatPanel(props: Props): JSX.Element {
   const params = useParams()
 
   useEffect(() => {
-    if (params.username === undefined) return
-    const privateChatRequest: PrivateChatRequest = {
-      chatName: params.username
+    if (params.username !== undefined && privateChat === null) {
+      const privateChatRequest: PrivateChatRequest = {
+        chatName: params.username
+      }
+
+      createPrivateChat(privateChatRequest)
     }
+  }, [params.username, privateChat, createPrivateChat])
 
-    createPrivateChat(privateChatRequest)
-  }, [params, createPrivateChat])
-
-  if (privateChat !== null) {
-    setPrivateChat(privateChat)
-  }
+  useEffect(() => {
+    if (data !== undefined) {
+      setPrivateChat(data)
+    }
+  }, [data])
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

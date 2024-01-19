@@ -5,7 +5,6 @@ import { devtools } from 'zustand/middleware'
 interface Store {
   userAuthenticated: User | null
   stompClient: Stomp.Client | null
-  privateChat: PrivateChat | null
   publicMessages: PublicMessage[] | []
   users: User[] | []
   userSelected: User | null
@@ -17,7 +16,6 @@ interface Store {
   setUsers: (users: User[]) => void
   setUserSelected: (user: User | null) => void
   setPublicMessages: (messages: PublicMessage[]) => void
-  setPrivateChat: (privateChat: PrivateChat | null) => void
   setPublicMessagesShowBadge: (publicMessagesShowBadge: boolean) => void
 }
 
@@ -28,7 +26,6 @@ export const useAppStore = create(
     publicMessages: [],
     users: [],
     userSelected: null,
-    privateChat: null,
     publicMessagesShowBadge: false,
     setUserAuthenticated: (userAuthenticated: User) => {
       set((store) => ({
@@ -55,9 +52,6 @@ export const useAppStore = create(
     },
     setUserSelected: (userSelected: User | null) => {
       set(() => ({ userSelected }))
-    },
-    setPrivateChat: (privateChat: PrivateChat | null) => {
-      set(() => ({ privateChat }))
     },
     setPublicMessagesShowBadge: (publicMessagesShowBadge: boolean) => {
       set(() => ({ publicMessagesShowBadge }))

@@ -4,10 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { fetchCreatePrivateChat } from 'services/chat'
-import { useAppStore } from 'store/useAppStore'
 
 export const useCreatePrivateChatMutation = () => {
-  const setPrivateChat = useAppStore((store) => store.setPrivateChat)
   const navigate = useNavigate()
   const { mutate, ...rest } = useMutation({
     mutationKey: ['addUser'],
@@ -15,7 +13,6 @@ export const useCreatePrivateChatMutation = () => {
       return await fetchCreatePrivateChat(privateChatRequest)
     },
     onSuccess: (privateChat: PrivateChat) => {
-      setPrivateChat(privateChat)
       navigate(`/chat/users/${privateChat.chatName}`)
     },
     onError: (error: AxiosError) => {
