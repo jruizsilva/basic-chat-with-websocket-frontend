@@ -18,7 +18,6 @@ export function App() {
   const setUserAuthenticated = useAppStore(
     (store) => store.setUserAuthenticated
   )
-  const setUsers = useAppStore((store) => store.setUsers)
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const setStompClient = useAppStore((store) => store.setStompClient)
   const queryClient = useQueryClient()
@@ -71,7 +70,6 @@ export function App() {
     logout,
     setUserAuthenticated,
     queryClient,
-    setUsers,
     deleteUser,
     setPublicMessagesShowBadge
   ])

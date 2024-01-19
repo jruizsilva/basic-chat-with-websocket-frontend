@@ -21,7 +21,7 @@ interface Props {}
 export function ChatPanel(props: Props): JSX.Element {
   const [privateChat, setPrivateChat] = useState<PrivateChat | null>(null)
   const { createPrivateChat, data } = useCreatePrivateChatMutation()
-  const { addPrivateMessageToPrivateChat } =
+  const { addPrivateMessageToPrivateChat, data: privateChatUpdated } =
     useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
@@ -44,6 +44,11 @@ export function ChatPanel(props: Props): JSX.Element {
       setPrivateChat(data)
     }
   }, [data])
+  useEffect(() => {
+    if (privateChatUpdated !== undefined) {
+      setPrivateChat(privateChatUpdated)
+    }
+  }, [privateChatUpdated])
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -87,13 +92,17 @@ export function ChatPanel(props: Props): JSX.Element {
               gap={2}
               ml={userAuthenticated?.username === item.sender ? 'auto' : '0'}
             >
-              <Avatar name={item.sender} size={'sm'} />
-              <Text>
-                <Text display={'inline-block'} fontWeight={'bold'}>
-                  {item.sender}:
-                </Text>{' '}
-                {item.content}
-              </Text>
+              <Box alignItems={'center'} display={'flex'} gap={2}>
+                <Avatar name={item.sender} size={'sm'} />
+                <Box display={'flex'} flexDir={'column'} gap={0}>
+                  <Text fontSize={'small'} fontWeight={'500'} lineHeight={1.2}>
+                    {item.sender}
+                  </Text>
+                  <Text fontSize={'small'} lineHeight={1.2}>
+                    {item.content}
+                  </Text>
+                </Box>
+              </Box>
             </Box>
           </ListItem>
         ))}

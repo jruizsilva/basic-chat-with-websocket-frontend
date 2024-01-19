@@ -2,7 +2,6 @@ import { Box, Button, Text } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 import { useAppStore } from 'store/useAppStore'
 

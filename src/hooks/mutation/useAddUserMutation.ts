@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
@@ -6,6 +6,7 @@ import { fetchAddUser } from 'services/users'
 import { useAppStore } from 'store/useAppStore'
 
 export const useAddUserMutation = () => {
+  const queryClient = useQueryClient()
   const setUserAuthenticated = useAppStore(
     (store) => store.setUserAuthenticated
   )
@@ -15,7 +16,12 @@ export const useAddUserMutation = () => {
       return await fetchAddUser(userRequest)
     },
     onSuccess: (userAuthenticated: User) => {
+      const users = queryClient.getQueryData<User[]>(['users'])
+
       setUserAuthenticated(userAuthenticated)
+      if (users !== undefined) {
+        queryClient.setQueryData(['users'], [...users, userAuthenticated])
+      }
       toast.success('Login successfuly')
     },
     onError: (error: AxiosError) => {
