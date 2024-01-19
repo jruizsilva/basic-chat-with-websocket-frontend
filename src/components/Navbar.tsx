@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Heading, Text } from '@chakra-ui/react'
 
 import { UserMenu } from './UserMenu'
 
@@ -14,7 +14,7 @@ export function Navbar(props: Props): JSX.Element {
       <Box maxW={{ base: '480px', sm: '640px' }} mx={'auto'} width={'95%'}>
         <Box alignItems={'center'} display={'flex'} py={4}>
           <Heading mr={'auto'} size={'lg'}>
-            Chat app
+            Simple Chat App
           </Heading>
           {userAuthenticated !== null && <UserMenu />}
         </Box>
