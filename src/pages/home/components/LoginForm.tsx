@@ -1,20 +1,18 @@
 import {
-  Heading,
-  FormLabel,
-  Input,
-  Button,
   Alert,
   AlertIcon,
   Box,
+  Button,
   FormControl,
-  Text
+  FormLabel,
+  Input
 } from '@chakra-ui/react'
 
 import { useAddUserMutation } from 'hooks/mutation/useAddUserMutation'
 
 interface Props {}
 
-export function Login(props: Props): JSX.Element {
+export function LoginForm(props: Props): JSX.Element {
   const { addUser } = useAddUserMutation()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,13 +28,7 @@ export function Login(props: Props): JSX.Element {
   }
 
   return (
-    <>
-      <Box>
-        <Heading mb={5} size={'lg'}>
-          Welcome to Chat app!
-        </Heading>
-        <Text mb={5}>Please write your username to start chatting</Text>
-      </Box>
+    <Box maxW={{ base: '480px' }}>
       <Box
         as={'form'}
         display={'flex'}
@@ -49,12 +41,14 @@ export function Login(props: Props): JSX.Element {
           <FormLabel>Username</FormLabel>
           <Input required minLength={2} name='username' />
         </FormControl>
-        <Button type='submit'>Login</Button>
+        <Button colorScheme='messenger' type='submit'>
+          Start chatting
+        </Button>
       </Box>
       <Alert status='warning'>
         <AlertIcon />
         Your account will be delete when you close the page.
       </Alert>
-    </>
+    </Box>
   )
 }

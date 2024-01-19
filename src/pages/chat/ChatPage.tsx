@@ -8,7 +8,7 @@ import { useAppStore } from 'store/useAppStore'
 interface Props {}
 
 export function ChatPage(props: Props): JSX.Element {
-  useUsersQuery()
+  const { data: users } = useUsersQuery()
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const setUserSelected = useAppStore((store) => store.setUserSelected)
@@ -34,9 +34,12 @@ export function ChatPage(props: Props): JSX.Element {
 
   return (
     <>
-      <Box maxW={{ base: '480px' }} mx={'auto'} width={'95%'}>
+      <Box maxW={{ base: '480px', sm: '640px' }} mx={'auto'} width={'95%'}>
         <Box display={'flex'} flexDir={'column'} gap={6}>
-          <Text fontSize={'2xl'}>Welcome {userAuthenticated?.username}</Text>
+          <Box display={'flex'} justifyContent={'space-between'}>
+            <Text fontSize={'2xl'}>Welcome {userAuthenticated?.username}</Text>
+            <Text fontSize={'2xl'}>{users?.length} users online</Text>
+          </Box>
 
           <Box maxWidth={'300px'} mx={'auto'} width={'95%'}>
             <Box

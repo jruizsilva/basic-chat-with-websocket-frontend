@@ -60,74 +60,77 @@ export function GlobalMensagges(props: Props): JSX.Element {
   }
 
   return (
-    <Box display={'flex'} flexDir={'column'} flexGrow={1} gap={4}>
-      <Box
-        backgroundColor={'gray.700'}
-        borderRadius={'8px'}
-        height={'300px'}
-        position={'relative'}
+    <Box
+      backgroundColor={'gray.700'}
+      borderRadius={'8px'}
+      height={'300px'}
+      maxW={{ base: '480px', sm: '640px' }}
+      mb={10}
+      mt={5}
+      mx={'auto'}
+      position={'relative'}
+      width={'95%'}
+    >
+      <List
+        ref={messagesContainer}
+        height={'240px'}
+        overflowY={'auto'}
+        padding={'16px'}
+        spacing={3}
       >
-        <List
-          ref={messagesContainer}
-          height={'240px'}
-          overflowY={'auto'}
-          padding={'16px'}
-          spacing={3}
-        >
-          {publicMessages !== undefined
-            ? publicMessages.map((item) => (
-                <ListItem key={item.id} display={'flex'} gap={2}>
-                  <Box
-                    display={'flex'}
-                    gap={2}
-                    ml={
-                      userAuthenticated?.username === item.sender ? 'auto' : '0'
-                    }
-                  >
-                    <Box alignItems={'center'} display={'flex'} gap={2}>
-                      <Avatar name={item.sender} size={'sm'} />
-                      <Box display={'flex'} flexDir={'column'} gap={0}>
-                        <Text
-                          fontSize={'small'}
-                          fontWeight={'500'}
-                          lineHeight={1.2}
-                        >
-                          {item.sender}
-                        </Text>
-                        <Text fontSize={'small'} lineHeight={1.2}>
-                          {item.content}
-                        </Text>
-                      </Box>
+        {publicMessages !== undefined
+          ? publicMessages.map((item) => (
+              <ListItem key={item.id} display={'flex'} gap={2}>
+                <Box
+                  display={'flex'}
+                  gap={2}
+                  ml={
+                    userAuthenticated?.username === item.sender ? 'auto' : '0'
+                  }
+                >
+                  <Box alignItems={'center'} display={'flex'} gap={2}>
+                    <Avatar name={item.sender} size={'sm'} />
+                    <Box display={'flex'} flexDir={'column'} gap={0}>
+                      <Text
+                        fontSize={'small'}
+                        fontWeight={'500'}
+                        lineHeight={1.2}
+                      >
+                        {item.sender}
+                      </Text>
+                      <Text fontSize={'small'} lineHeight={1.2}>
+                        {item.content}
+                      </Text>
                     </Box>
                   </Box>
-                </ListItem>
-              ))
-            : null}
-        </List>
-        <Box
-          as={'form'}
-          bottom={'12px'}
-          display={'flex'}
-          left={'12px'}
-          position={'absolute'}
-          right={'8px'}
-          width={'calc(100% - 24px)'}
-          onSubmit={sendMessage}
-        >
-          <InputGroup>
-            <Input value={message} onChange={handleMessageChange} />
-            <InputRightElement width='4.5rem'>
-              <Button
-                h='1.75rem'
-                isDisabled={message.trim().length === 0}
-                size='sm'
-                type='submit'
-              >
-                Enviar
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </Box>
+                </Box>
+              </ListItem>
+            ))
+          : null}
+      </List>
+      <Box
+        as={'form'}
+        bottom={'12px'}
+        display={'flex'}
+        left={'12px'}
+        position={'absolute'}
+        right={'8px'}
+        width={'calc(100% - 24px)'}
+        onSubmit={sendMessage}
+      >
+        <InputGroup>
+          <Input value={message} onChange={handleMessageChange} />
+          <InputRightElement width='4.5rem'>
+            <Button
+              h='1.75rem'
+              isDisabled={message.trim().length === 0}
+              size='sm'
+              type='submit'
+            >
+              Enviar
+            </Button>
+          </InputRightElement>
+        </InputGroup>
       </Box>
     </Box>
   )
