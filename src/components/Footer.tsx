@@ -45,15 +45,16 @@ const SocialButton = ({
   )
 }
 
-export function Footer(props: Readonly<BoxProps>) {
+export function Footer() {
   return (
-    <Box borderTop={'1px solid'} {...props}>
+    <Box borderTop={'1px solid'}>
       <Container
         align={{ base: 'center', md: 'center' }}
         as={Stack}
         direction={{ base: 'column', md: 'row' }}
         justify={{ base: 'center', md: 'space-between' }}
         maxW={'6xl'}
+        minHeight={'10vh'}
         py={4}
         spacing={4}
       >

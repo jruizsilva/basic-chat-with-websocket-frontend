@@ -19,26 +19,24 @@ interface Props {}
 export function MainRouter(props: Props): JSX.Element {
   return (
     <BrowserRouter>
-      <Box display={'flex'} flexDir={'column'} minHeight={'100vh'}>
-        <Navbar />
-        <WebSocketsConnection />
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route element={<ChatPage />} path='/chat'>
-              <Route index element={<GlobalMensagges />} />
-              <Route element={<OneToOneMensagges />} path='users'>
-                <Route index element={<ChatPanelUserUnselected />} />
-                <Route element={<ChatPanel />} path=':username' />
-              </Route>
+      <Navbar />
+      <WebSocketsConnection />
+      <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route element={<ChatPage />} path='/chat'>
+            <Route index element={<GlobalMensagges />} />
+            <Route element={<OneToOneMensagges />} path='users'>
+              <Route index element={<ChatPanelUserUnselected />} />
+              <Route element={<ChatPanel />} path=':username' />
             </Route>
           </Route>
-          <Route element={<RedirectToChatWhenUserIsAuthenticated />}>
-            <Route element={<HomePage />} path='/' />
-          </Route>
-          <Route element={<ChatPage />} path='*' />
-        </Routes>
-        <Footer mt={'auto'} />
-      </Box>
+        </Route>
+        <Route element={<RedirectToChatWhenUserIsAuthenticated />}>
+          <Route element={<HomePage />} path='/' />
+        </Route>
+        <Route element={<ChatPage />} path='*' />
+      </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }

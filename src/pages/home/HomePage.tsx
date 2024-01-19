@@ -6,7 +6,13 @@ interface Props {}
 
 export function HomePage(props: Props): JSX.Element {
   return (
-    <Box maxW={{ base: '480px', sm: '640px' }} mx={'auto'} width={'95%'}>
+    <Box
+      maxW={{ base: '480px', sm: '640px' }}
+      minHeight={'calc(80vh - 3px)'}
+      mx={'auto'}
+      pt={8}
+      width={'95%'}
+    >
       <Heading mb={5} size={'lg'}>
         Welcome to Chat app!
       </Heading>

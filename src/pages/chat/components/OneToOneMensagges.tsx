@@ -9,7 +9,7 @@ export function OneToOneMensagges(props: Props): JSX.Element {
   return (
     <Box
       display={'flex'}
-      flexDir={{ base: 'column', sm: 'row' }}
+      flexDir={{ base: 'column-reverse', md: 'row' }}
       gap={'24px'}
       justifyContent={'space-between'}
       maxW={{ base: '480px', sm: '640px' }}

@@ -33,7 +33,7 @@ export function ChatPage(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
   return (
-    <>
+    <Box minHeight={'calc(80vh - 4px)'} pt={8}>
       <Box maxW={{ base: '480px', sm: '640px' }} mx={'auto'} width={'95%'}>
         <Box display={'flex'} flexDir={'column'} gap={6}>
           <Box display={'flex'} justifyContent={'space-between'}>
@@ -115,6 +115,6 @@ export function ChatPage(props: Props): JSX.Element {
         </Box>
       </Box>
       <Outlet />
-    </>
+    </Box>
   )
 }
