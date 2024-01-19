@@ -1,4 +1,4 @@
-import { Avatar, List, ListItem, Text } from '@chakra-ui/react'
+import { Avatar, Box, List, ListItem, Text } from '@chakra-ui/react'
 import { useSearchParams } from 'react-router-dom'
 
 import { useCreatePrivateChatMutation } from 'hooks/mutation/useCreatePrivateChatMutation'
@@ -14,8 +14,6 @@ export function UserList(props: Props): JSX.Element {
   const userSelected = useAppStore((store) => store.userSelected)
   const setUserSelected = useAppStore((store) => store.setUserSelected)
   const [searchParams, setSearchParams] = useSearchParams()
-
-  console.log(searchParams.get('sender'))
 
   const { createPrivateChat } = useCreatePrivateChatMutation()
 
@@ -44,14 +42,10 @@ export function UserList(props: Props): JSX.Element {
                 backgroundColor={
                   userSelected?.id === item.id ? 'gray.600' : 'transparent'
                 }
-                bg={
-                  searchParams.get('sender') === item.username
-                    ? 'red'
-                    : 'transparent'
-                }
                 display={'flex'}
                 gap={2}
                 p={2}
+                position={'relative'}
                 rounded={'8px'}
                 width={'100%'}
                 onClick={() => {
@@ -60,6 +54,9 @@ export function UserList(props: Props): JSX.Element {
               >
                 <Avatar name={item.username} size={'sm'} />
                 <Text>{item.username}</Text>
+                {searchParams.get('sender') === item.username && (
+                  <Box bg='red' borderRadius='100%' height='8px' width='8px' />
+                )}
               </ListItem>
             ))
         : null}
