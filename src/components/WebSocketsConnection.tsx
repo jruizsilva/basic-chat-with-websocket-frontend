@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
@@ -16,6 +16,9 @@ export function WebSocketsConnection(props: Props): JSX.Element {
   const setPublicMessagesShowBadge = useAppStore(
     (store) => store.setPublicMessagesShowBadge
   )
+  const setPrivateMessagesShowBadge = useAppStore(
+    (store) => store.setPrivateMessagesShowBadge
+  )
   const logout = useAppStore((store) => store.logout)
   const { deleteUser } = useDeleteUserMutation()
   const setUserAuthenticated = useAppStore(
@@ -26,6 +29,8 @@ export function WebSocketsConnection(props: Props): JSX.Element {
   const queryClient = useQueryClient()
   const { deleteAllPublicMessagesBySender } =
     useDeleteAllPublicMesaggesBySenderMutation()
+  const params = useParams()
+  const { pathname } = useLocation()
 
   useEffect(() => {
     if (userAuthenticated !== null && stompClient === null) {
@@ -38,7 +43,7 @@ export function WebSocketsConnection(props: Props): JSX.Element {
       stompClient.connect({}, () => {
         stompClient.subscribe('/topic/public-messages', (message) => {
           queryClient.invalidateQueries({ queryKey: ['public-messages'] })
-          if (window.location.pathname.includes('/users')) {
+          if (pathname.includes('/users')) {
             setPublicMessagesShowBadge(true)
           }
         })
@@ -51,9 +56,19 @@ export function WebSocketsConnection(props: Props): JSX.Element {
           function (message) {
             const privateChat: PrivateChat = JSON.parse(message.body)
 
-            navigate(`/chat/users/${privateChat.chatName}`, {
-              state: privateChat
-            })
+            console.log('pathname', pathname)
+            if (!pathname.includes('/users') && params.username === undefined) {
+              setPrivateMessagesShowBadge(true)
+            } else {
+              navigate(`/chat/users/${privateChat.chatName}`, {
+                state: privateChat
+              })
+            }
+            // if (params.username !== undefined) {
+            //   navigate(`/chat/users/${privateChat.chatName}`, {
+            //     state: privateChat
+            //   })
+            // }
           }
         )
       })
@@ -67,7 +82,10 @@ export function WebSocketsConnection(props: Props): JSX.Element {
     queryClient,
     deleteUser,
     setPublicMessagesShowBadge,
-    navigate
+    navigate,
+    pathname,
+    params.username,
+    setPrivateMessagesShowBadge
   ])
 
   useEffect(() => {

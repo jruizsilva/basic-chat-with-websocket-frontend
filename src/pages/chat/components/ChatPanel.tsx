@@ -31,7 +31,6 @@ export function ChatPanel(props: Props): JSX.Element {
   const [message, setMessage] = useState('')
   const messagesContainer = useRef<HTMLUListElement | null>(null)
 
-  // TODO scroll bottom
   useEffect(() => {
     if (stateData !== undefined) {
       setPrivateChat(stateData)
