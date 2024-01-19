@@ -9,6 +9,7 @@ interface Store {
   publicMessages: PublicMessage[] | []
   users: User[] | []
   userSelected: User | null
+  publicMessagesShowBadge: boolean
   setUserAuthenticated: (user: User) => void
   setStompClient: (stompClient: Stomp.Client) => void
   addPublicMessage: (chatMessage: PublicMessage) => void
@@ -17,6 +18,7 @@ interface Store {
   setUserSelected: (user: User | null) => void
   setPublicMessages: (messages: PublicMessage[]) => void
   setPrivateChat: (privateChat: PrivateChat | null) => void
+  setPublicMessagesShowBadge: (publicMessagesShowBadge: boolean) => void
 }
 
 export const useAppStore = create(
@@ -27,6 +29,7 @@ export const useAppStore = create(
     users: [],
     userSelected: null,
     privateChat: null,
+    publicMessagesShowBadge: false,
     setUserAuthenticated: (userAuthenticated: User) => {
       set((store) => ({
         userAuthenticated,
@@ -55,6 +58,9 @@ export const useAppStore = create(
     },
     setPrivateChat: (privateChat: PrivateChat | null) => {
       set(() => ({ privateChat }))
+    },
+    setPublicMessagesShowBadge: (publicMessagesShowBadge: boolean) => {
+      set(() => ({ publicMessagesShowBadge }))
     }
   }))
 )

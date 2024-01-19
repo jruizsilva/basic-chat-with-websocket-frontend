@@ -22,7 +22,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <QueryClientProvider client={queryClient}>
       <App />
-      <ToastContainer />
+      <ToastContainer
+        position='bottom-right'
+        pauseOnFocusLoss={false}
+        pauseOnHover={false}
+        hideProgressBar={true}
+        autoClose={1500}
+        closeOnClick={false}
+      />
     </QueryClientProvider>
   </ChakraProvider>
 )

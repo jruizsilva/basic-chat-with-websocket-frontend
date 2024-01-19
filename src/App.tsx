@@ -1,15 +1,18 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
+import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { MainRouter } from 'routes/MainRouter'
 import { useAppStore } from 'store/useAppStore'
-import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
+import { useEffect } from 'react'
 
 export function App() {
   const stompClient = useAppStore((store) => store.stompClient)
+  const setPublicMessagesShowBadge = useAppStore(
+    (store) => store.setPublicMessagesShowBadge
+  )
   const logout = useAppStore((store) => store.logout)
   const { deleteUser } = useDeleteUserMutation()
   const setUserAuthenticated = useAppStore(
@@ -34,6 +37,9 @@ export function App() {
       stompClient.connect({}, () => {
         stompClient.subscribe('/topic/public-messages', (message) => {
           queryClient.invalidateQueries({ queryKey: ['public-messages'] })
+          if (window.location.pathname.includes('/users')) {
+            setPublicMessagesShowBadge(true)
+          }
         })
         stompClient.subscribe('/topic/users', (message) => {
           queryClient.invalidateQueries({ queryKey: ['users'] })
@@ -66,7 +72,8 @@ export function App() {
     setUserAuthenticated,
     queryClient,
     setUsers,
-    deleteUser
+    deleteUser,
+    setPublicMessagesShowBadge
   ])
 
   useEffect(() => {

@@ -14,6 +14,12 @@ export function ChatPage(props: Props): JSX.Element {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const setUserSelected = useAppStore((store) => store.setUserSelected)
+  const setPublicMessagesShowBadge = useAppStore(
+    (store) => store.setPublicMessagesShowBadge
+  )
+  const publicMessagesShowBadge = useAppStore(
+    (store) => store.publicMessagesShowBadge
+  )
 
   const pathnameIncludeUsers = useMemo(() => {
     return pathname.includes('users')
@@ -37,13 +43,30 @@ export function ChatPage(props: Props): JSX.Element {
           >
             <Button
               _active={{ backgroundColor: 'gray.800', color: 'white' }}
+              _after={
+                publicMessagesShowBadge
+                  ? {
+                      content: `" "`,
+                      bg: 'red',
+                      position: 'absolute',
+                      top: '8px',
+                      right: '22px',
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '50%'
+                    }
+                  : {}
+              }
               color={'#bbb'}
               flexGrow={1}
               isActive={!pathnameIncludeUsers}
+              position={'relative'}
               size={'sm'}
               variant={'unstyled'}
               onClick={() => {
                 navigate('/chat')
+                setUserSelected(null)
+                setPublicMessagesShowBadge(false)
               }}
             >
               Chat general
