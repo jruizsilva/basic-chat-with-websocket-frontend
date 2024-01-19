@@ -20,9 +20,7 @@ interface Props {}
 export function ChatPanel(props: Props): JSX.Element {
   const location = useLocation()
   const stateData: PrivateChat = location.state
-
   const [privateChat, setPrivateChat] = useState<PrivateChat>(stateData)
-
   const { addPrivateMessageToPrivateChat, data: privateChatUpdated } =
     useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
