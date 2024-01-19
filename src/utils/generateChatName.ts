@@ -7,6 +7,8 @@ export const generateChatName = (text1: string, text2: string) => {
     compareFunction
   )
 
-  // Concatenar los textos ordenados
-  return `${sortedTexts[0]}_${sortedTexts[1]}`
+  // Concatenar los textos ordenados y convertir a minúsculas
+  const concatenatedText = `${sortedTexts[0]}_${sortedTexts[1]}`.toLowerCase()
+
+  return concatenatedText
 }

@@ -8,7 +8,7 @@ export function HomePage(props: Props): JSX.Element {
   return (
     <Box
       maxW={{ base: '480px', sm: '640px' }}
-      minHeight={'calc(80vh - 3px)'}
+      minHeight={'calc(80vh - 4px)'}
       mx={'auto'}
       pt={8}
       width={'95%'}
