@@ -9,7 +9,6 @@ import { useAppStore } from 'store/useAppStore'
 interface Props {}
 
 export function ChatPage(props: Props): JSX.Element {
-  usePublicMessagesQuery()
   useUsersQuery()
   const { pathname } = useLocation()
   const navigate = useNavigate()

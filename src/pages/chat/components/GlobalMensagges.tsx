@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -14,15 +13,17 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useAddPublicMessageMutation } from 'hooks/mutation/useAddPublicMessageMutation'
 import { useAppStore } from 'store/useAppStore'
+import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
 
 interface Props {}
 
 export function GlobalMensagges(props: Props): JSX.Element {
   const { addPublicMessage } = useAddPublicMessageMutation()
 
+  const { data: publicMessages } = usePublicMessagesQuery()
+
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
-  const publicMessages = useAppStore((store) => store.publicMessages)
 
   const [message, setMessage] = useState('')
 
@@ -73,23 +74,27 @@ export function GlobalMensagges(props: Props): JSX.Element {
           padding={'16px'}
           spacing={3}
         >
-          {publicMessages.map((item) => (
-            <ListItem key={item.id} display={'flex'} gap={2}>
-              <Box
-                display={'flex'}
-                gap={2}
-                ml={userAuthenticated?.username === item.sender ? 'auto' : '0'}
-              >
-                <Avatar name={item.sender} size={'sm'} />
-                <Text>
-                  <Text display={'inline-block'} fontWeight={'bold'}>
-                    {item.sender}:
-                  </Text>{' '}
-                  {item.content}
-                </Text>
-              </Box>
-            </ListItem>
-          ))}
+          {publicMessages !== undefined
+            ? publicMessages.map((item) => (
+                <ListItem key={item.id} display={'flex'} gap={2}>
+                  <Box
+                    display={'flex'}
+                    gap={2}
+                    ml={
+                      userAuthenticated?.username === item.sender ? 'auto' : '0'
+                    }
+                  >
+                    <Avatar name={item.sender} size={'sm'} />
+                    <Text>
+                      <Text display={'inline-block'} fontWeight={'bold'}>
+                        {item.sender}:
+                      </Text>{' '}
+                      {item.content}
+                    </Text>
+                  </Box>
+                </ListItem>
+              ))
+            : null}
         </List>
         <Box
           as={'form'}
