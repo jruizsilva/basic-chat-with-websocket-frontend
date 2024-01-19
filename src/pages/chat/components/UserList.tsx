@@ -1,4 +1,5 @@
 import { Avatar, List, ListItem, Text } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 import { useCreatePrivateChatMutation } from 'hooks/mutation/useCreatePrivateChatMutation'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'

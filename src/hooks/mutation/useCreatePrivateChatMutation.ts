@@ -13,7 +13,7 @@ export const useCreatePrivateChatMutation = () => {
       return await fetchCreatePrivateChat(privateChatRequest)
     },
     onSuccess: (privateChat: PrivateChat) => {
-      navigate(`/chat/users/${privateChat.chatName}`)
+      navigate(`/chat/users/${privateChat.chatName}`, { state: privateChat })
     },
     onError: (error: AxiosError) => {
       const errorMessage =
