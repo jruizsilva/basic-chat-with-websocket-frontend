@@ -12,8 +12,8 @@ import {
 import { useEffect, useRef, useState } from 'react'
 
 import { useAddPublicMessageMutation } from 'hooks/mutation/useAddPublicMessageMutation'
-import { useAppStore } from 'store/useAppStore'
 import { usePublicMessagesQuery } from 'hooks/queries/usePublicMessagesQuery'
+import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
@@ -84,13 +84,21 @@ export function GlobalMensagges(props: Props): JSX.Element {
                       userAuthenticated?.username === item.sender ? 'auto' : '0'
                     }
                   >
-                    <Avatar name={item.sender} size={'sm'} />
-                    <Text>
-                      <Text display={'inline-block'} fontWeight={'bold'}>
-                        {item.sender}:
-                      </Text>{' '}
-                      {item.content}
-                    </Text>
+                    <Box alignItems={'center'} display={'flex'} gap={2}>
+                      <Avatar name={item.sender} size={'sm'} />
+                      <Box display={'flex'} flexDir={'column'} gap={0}>
+                        <Text
+                          fontSize={'small'}
+                          fontWeight={'500'}
+                          lineHeight={1.2}
+                        >
+                          {item.sender}
+                        </Text>
+                        <Text fontSize={'small'} lineHeight={1.2}>
+                          {item.content}
+                        </Text>
+                      </Box>
+                    </Box>
                   </Box>
                 </ListItem>
               ))
