@@ -13,12 +13,16 @@ import { useAddUserMutation } from 'hooks/mutation/useAddUserMutation'
 interface Props {}
 
 export function LoginForm(props: Props): JSX.Element {
-  const { addUser } = useAddUserMutation()
+  const { addUser, isPending: isAddUserPending } = useAddUserMutation()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const username = formData.get('username') as string
+
+    if (username.trim().length < 2) {
+      return
+    }
 
     const user: UserRequest = {
       username
@@ -41,7 +45,12 @@ export function LoginForm(props: Props): JSX.Element {
           <FormLabel>Username</FormLabel>
           <Input required minLength={2} name='username' />
         </FormControl>
-        <Button colorScheme='messenger' type='submit'>
+        <Button
+          colorScheme='messenger'
+          isLoading={isAddUserPending}
+          loadingText='Loading...'
+          type='submit'
+        >
           Start chatting
         </Button>
       </Box>

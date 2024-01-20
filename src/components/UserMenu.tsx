@@ -22,7 +22,7 @@ export function UserMenu() {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const stompClient = useAppStore((store) => store.stompClient)
   const logout = useAppStore((store) => store.logout)
-  const { deleteUser } = useDeleteUserMutation()
+  const { deleteUser, isPending: isPendingDeleteUser } = useDeleteUserMutation()
   const { deleteAllPublicMessagesBySender } =
     useDeleteAllPublicMesaggesBySenderMutation()
 
@@ -62,7 +62,10 @@ export function UserMenu() {
               colorScheme='red'
               fontSize='sm'
               fontWeight='normal'
+              isDisabled={isPendingDeleteUser}
+              isLoading={isPendingDeleteUser}
               justifyContent='space-between'
+              loadingText='Loading...'
               rightIcon={<MdDelete />}
               variant='ghost'
               w='194px'

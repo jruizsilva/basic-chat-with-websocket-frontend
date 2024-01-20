@@ -15,10 +15,16 @@ export function UserList(props: Props): JSX.Element {
   const setUserSelected = useAppStore((store) => store.setUserSelected)
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const { createPrivateChat } = useCreatePrivateChatMutation()
+  const { createPrivateChat, isPending: isPendingCreatePrivateChat } =
+    useCreatePrivateChatMutation()
 
   const handleSelectUser = (user: User) => {
-    if (user === null || userAuthenticated === null) return
+    if (
+      user === null ||
+      userAuthenticated === null ||
+      isPendingCreatePrivateChat
+    )
+      return
 
     const privateChatRequest: PrivateChatRequest = {
       chatName: generateChatName(user.username, userAuthenticated?.username)
@@ -37,7 +43,9 @@ export function UserList(props: Props): JSX.Element {
             .map((item) => (
               <ListItem
                 key={item.id}
-                _hover={{ cursor: 'pointer' }}
+                _hover={{
+                  cursor: isPendingCreatePrivateChat ? 'not-allowed' : 'pointer'
+                }}
                 alignItems={'center'}
                 backgroundColor={
                   userSelected?.id === item.id ? 'gray.600' : 'transparent'

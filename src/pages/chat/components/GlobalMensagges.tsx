@@ -18,7 +18,8 @@ import { useAppStore } from 'store/useAppStore'
 interface Props {}
 
 export function GlobalMensagges(props: Props): JSX.Element {
-  const { addPublicMessage } = useAddPublicMessageMutation()
+  const { addPublicMessage, isPending: isAddingMessage } =
+    useAddPublicMessageMutation()
 
   const { data: publicMessages } = usePublicMessagesQuery()
 
@@ -123,7 +124,9 @@ export function GlobalMensagges(props: Props): JSX.Element {
           <InputRightElement width='4.5rem'>
             <Button
               h='1.75rem'
-              isDisabled={message.trim().length === 0}
+              isDisabled={message.trim().length === 0 || isAddingMessage}
+              isLoading={isAddingMessage}
+              loadingText='Loading...'
               size='sm'
               type='submit'
             >

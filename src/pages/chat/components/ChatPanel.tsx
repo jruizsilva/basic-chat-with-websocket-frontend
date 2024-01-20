@@ -21,8 +21,11 @@ export function ChatPanel(props: Props): JSX.Element {
   const location = useLocation()
   const stateData: PrivateChat = location.state
   const [privateChat, setPrivateChat] = useState<PrivateChat>(stateData)
-  const { addPrivateMessageToPrivateChat, data: privateChatUpdated } =
-    useAddPrivateMessageToPrivateChatMutation()
+  const {
+    addPrivateMessageToPrivateChat,
+    data: privateChatUpdated,
+    isPending: isAddingMessage
+  } = useAddPrivateMessageToPrivateChatMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
@@ -126,7 +129,9 @@ export function ChatPanel(props: Props): JSX.Element {
           <InputRightElement width='4.5rem'>
             <Button
               h='1.75rem'
-              isDisabled={message.trim().length === 0}
+              isDisabled={message.trim().length === 0 || isAddingMessage}
+              isLoading={isAddingMessage}
+              loadingText='Loading...'
               size='sm'
               type='submit'
             >
