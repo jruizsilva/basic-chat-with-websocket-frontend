@@ -7,6 +7,7 @@ import Stomp from 'stompjs'
 import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
 import { useAppStore } from 'store/useAppStore'
+import { baseUrl } from 'utils/baseUrl'
 
 interface Props {}
 
@@ -32,7 +33,7 @@ export function WebSocketsConnection(props: Props): JSX.Element {
 
   useEffect(() => {
     if (userAuthenticated !== null && stompClient === null) {
-      const socket = new SockJS('http://localhost:8080/ws')
+      const socket = new SockJS(`${baseUrl}/ws`)
 
       const stompClient = Stomp.over(socket)
 
