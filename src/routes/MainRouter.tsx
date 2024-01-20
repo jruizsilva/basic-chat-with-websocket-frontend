@@ -1,18 +1,17 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Box } from '@chakra-ui/react'
 
 import { PrivateRoutes } from './PrivateRoutes'
 import { RedirectToChatWhenUserIsAuthenticated } from './RedirectToChatWhenUserIsAuthenticated'
 
+import { Footer } from 'components/Footer'
 import { Navbar } from 'components/Navbar'
+import { WebSocketsConnection } from 'components/WebSocketsConnection'
 import { ChatPage } from 'pages/chat/ChatPage'
+import { ChatPanel } from 'pages/chat/components/ChatPanel'
+import { ChatPanelUserUnselected } from 'pages/chat/components/ChatPanelUserUnselected'
 import { GlobalMensagges } from 'pages/chat/components/GlobalMensagges'
 import { OneToOneMensagges } from 'pages/chat/components/OneToOneMensagges'
 import { HomePage } from 'pages/home/HomePage'
-import { ChatPanel } from 'pages/chat/components/ChatPanel'
-import { ChatPanelUserUnselected } from 'pages/chat/components/ChatPanelUserUnselected'
-import { WebSocketsConnection } from 'components/WebSocketsConnection'
-import { Footer } from 'components/Footer'
 
 interface Props {}
 
