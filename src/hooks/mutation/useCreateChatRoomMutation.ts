@@ -3,16 +3,16 @@ import { type AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { fetchCreatePrivateChat } from 'services/chat'
+import { fetchCreateChatRoom } from 'services/chat'
 
-export const useCreatePrivateChatMutation = () => {
+export const useCreateChatRoomMutation = () => {
   const navigate = useNavigate()
   const { mutate, ...rest } = useMutation({
     mutationKey: ['createPrivateChat'],
-    mutationFn: async (privateChatRequest: PrivateChatRequest) => {
-      return await fetchCreatePrivateChat(privateChatRequest)
+    mutationFn: async (privateChatRequest: ChatRoomRequest) => {
+      return await fetchCreateChatRoom(privateChatRequest)
     },
-    onSuccess: (privateChat: PrivateChat) => {
+    onSuccess: (privateChat: ChatRoom) => {
       navigate(`/chat/users/${privateChat.chatName}`, { state: privateChat })
     },
     onError: (error: AxiosError) => {

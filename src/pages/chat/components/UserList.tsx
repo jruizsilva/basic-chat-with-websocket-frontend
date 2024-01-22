@@ -1,7 +1,7 @@
 import { Avatar, Box, List, ListItem, Text } from '@chakra-ui/react'
 import { useSearchParams } from 'react-router-dom'
 
-import { useCreatePrivateChatMutation } from 'hooks/mutation/useCreatePrivateChatMutation'
+import { useCreateChatRoomMutation } from 'hooks/mutation/useCreateChatRoomMutation'
 import { useUsersQuery } from 'hooks/queries/useUsersQuery'
 import { useAppStore } from 'store/useAppStore'
 import { generateChatName } from 'utils/generateChatName'
@@ -16,7 +16,7 @@ export function UserList(props: Props): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const { createPrivateChat, isPending: isPendingCreatePrivateChat } =
-    useCreatePrivateChatMutation()
+    useCreateChatRoomMutation()
 
   const handleSelectUser = (user: User) => {
     if (
@@ -26,7 +26,7 @@ export function UserList(props: Props): JSX.Element {
     )
       return
 
-    const privateChatRequest: PrivateChatRequest = {
+    const privateChatRequest: ChatRoomRequest = {
       chatName: generateChatName(user.username, userAuthenticated?.username)
     }
 

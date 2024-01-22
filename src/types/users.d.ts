@@ -1,7 +1,7 @@
 interface User {
   id: string
   username: string
-  privateChats: PrivateChat[]
+  privateChats: ChatRoom[]
 }
 interface UserRequest {
   username: string

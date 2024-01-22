@@ -53,7 +53,7 @@ export function WebSocketsConnection(props: Props): JSX.Element {
         stompClient.subscribe(
           `/user/${userAuthenticated.username}/queue/messages`,
           function (message) {
-            const privateChat: PrivateChat = JSON.parse(message.body)
+            const privateChat: ChatRoom = JSON.parse(message.body)
             const sender = privateChat.messages.find(
               (message) => message.receiver === userAuthenticated.username
             )

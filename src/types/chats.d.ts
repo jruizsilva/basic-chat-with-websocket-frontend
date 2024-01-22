@@ -1,6 +1,9 @@
-interface PrivateChat {
+interface ChatRoom {
   id: number
   chatName: string
   messages: PrivateMessage[]
+  status: MessageStatus
 }
-type PrivateChatRequest = Omit<PrivateChat, 'id' | 'messages'>
+type ChatRoomRequest = Omit<ChatRoom, 'id' | 'messages' | 'status'>
+
+type MessageStatus = 'UNREAD' | 'READ'

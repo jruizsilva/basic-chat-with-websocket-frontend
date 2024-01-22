@@ -12,20 +12,20 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { useAddPrivateMessageToPrivateChatMutation } from 'hooks/mutation/useAddPrivateMessageToPrivateChatMutation'
+import { useAddPrivateMessageToChatRoomMutation } from 'hooks/mutation/useAddPrivateMessageToChatRoomMutation'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
 export function ChatPanel(props: Props): JSX.Element {
   const location = useLocation()
-  const stateData: PrivateChat = location.state
-  const [privateChat, setPrivateChat] = useState<PrivateChat>(stateData)
+  const stateData: ChatRoom = location.state
+  const [privateChat, setPrivateChat] = useState<ChatRoom>(stateData)
   const {
     addPrivateMessageToPrivateChat,
     data: privateChatUpdated,
     isPending: isAddingMessage
-  } = useAddPrivateMessageToPrivateChatMutation()
+  } = useAddPrivateMessageToChatRoomMutation()
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const stompClient = useAppStore((store) => store.stompClient)
