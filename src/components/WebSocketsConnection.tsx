@@ -41,13 +41,16 @@ export function WebSocketsConnection(props: Props): JSX.Element {
 
       stompClient.connect({}, () => {
         stompClient.subscribe('/topic/public-messages', (message) => {
-          queryClient.invalidateQueries({ queryKey: ['public-messages'] })
+          queryClient.setQueryData(
+            ['public-messages'],
+            JSON.parse(message.body)
+          )
           if (window.location.pathname.includes('/users')) {
             setPublicMessagesShowBadge(true)
           }
         })
         stompClient.subscribe('/topic/users', (message) => {
-          queryClient.invalidateQueries({ queryKey: ['users'] })
+          queryClient.setQueryData(['users'], JSON.parse(message.body))
         })
 
         stompClient.subscribe(
