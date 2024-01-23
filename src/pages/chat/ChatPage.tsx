@@ -11,7 +11,6 @@ export function ChatPage(props: Props): JSX.Element {
   const { data: users } = useUsersQuery()
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const unreadMessages = useAppStore((store) => store.unreadMessages)
   const setUserSelected = useAppStore((store) => store.setUserSelected)
   const setPrivateMessagesShowBadge = useAppStore(
     (store) => store.setPrivateMessagesShowBadge
