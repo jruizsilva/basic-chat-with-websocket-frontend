@@ -68,7 +68,13 @@ export function UserList(props: Props): JSX.Element {
                 <Avatar name={item.username} size={'sm'} />
                 <Text>{item.username}</Text>
                 {unreadMessages.some((el) => el.sender === item.username) && (
-                  <Badge colorScheme='purple'>new messages</Badge>
+                  <Badge colorScheme='purple'>
+                    {
+                      unreadMessages.filter((el) => el.sender === item.username)
+                        .length
+                    }{' '}
+                    new messages
+                  </Badge>
                 )}
 
                 {searchParams.get('sender') === item.username && (
