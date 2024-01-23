@@ -64,16 +64,19 @@ export function WebSocketsConnection(props: Props): JSX.Element {
           }
         )
 
-        stompClient.subscribe('/topic/notification', function (message) {
-          const newUnreadMessage: UnreadMessage = JSON.parse(message.body)
+        stompClient.subscribe(
+          `/user/${userAuthenticated.username}/notification`,
+          function (message) {
+            const newUnreadMessage: UnreadMessage = JSON.parse(message.body)
 
-          if (!window.location.pathname.includes(newUnreadMessage.chatName)) {
-            addUnreadMessage(newUnreadMessage)
+            if (!window.location.pathname.includes(newUnreadMessage.chatName)) {
+              addUnreadMessage(newUnreadMessage)
+            }
+            if (!window.location.pathname.includes('users')) {
+              setPrivateMessagesShowBadge(true)
+            }
           }
-          if (!window.location.pathname.includes('users')) {
-            setPrivateMessagesShowBadge(true)
-          }
-        })
+        )
       })
     }
   }, [
