@@ -33,7 +33,7 @@ export function MainRouter(props: Props): JSX.Element {
         <Route element={<RedirectToChatWhenUserIsAuthenticated />}>
           <Route element={<HomePage />} path='/' />
         </Route>
-        <Route element={<ChatPage />} path='*' />
+        <Route element={<HomePage />} path='*' />
       </Routes>
       <Footer />
     </BrowserRouter>
