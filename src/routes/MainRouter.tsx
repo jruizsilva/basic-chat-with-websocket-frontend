@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { PrivateRoutes } from './PrivateRoutes'
 import { RedirectToChatWhenUserIsAuthenticated } from './RedirectToChatWhenUserIsAuthenticated'
@@ -33,7 +33,7 @@ export function MainRouter(props: Props): JSX.Element {
         <Route element={<RedirectToChatWhenUserIsAuthenticated />}>
           <Route element={<HomePage />} path='/' />
         </Route>
-        <Route element={<HomePage />} path='*' />
+        <Route element={<Navigate to={'/'} />} path='*' />
       </Routes>
       <Footer />
     </BrowserRouter>
