@@ -41,7 +41,8 @@ export function GlobalMensagges(props: Props): JSX.Element {
 
     const publicMessage: PublicMessageRequest = {
       sender: userAuthenticated.username,
-      content: message
+      content: message,
+      type: 'MESSAGE'
     }
 
     addPublicMessage(publicMessage)
@@ -59,6 +60,8 @@ export function GlobalMensagges(props: Props): JSX.Element {
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value)
   }
+
+  console.log(publicMessages)
 
   return (
     <Box
@@ -82,29 +85,33 @@ export function GlobalMensagges(props: Props): JSX.Element {
         {publicMessages !== undefined
           ? publicMessages.map((item) => (
               <ListItem key={item.id} display={'flex'} gap={2}>
-                <Box
-                  display={'flex'}
-                  gap={2}
-                  ml={
-                    userAuthenticated?.username === item.sender ? 'auto' : '0'
-                  }
-                >
-                  <Box alignItems={'center'} display={'flex'} gap={2}>
-                    <Avatar name={item.sender} size={'sm'} />
-                    <Box display={'flex'} flexDir={'column'} gap={0}>
-                      <Text
-                        fontSize={'small'}
-                        fontWeight={'500'}
-                        lineHeight={1.2}
-                      >
-                        {item.sender}
-                      </Text>
-                      <Text fontSize={'small'} lineHeight={1.2}>
-                        {item.content}
-                      </Text>
+                {item.type === 'MESSAGE' ? (
+                  <Box
+                    display={'flex'}
+                    gap={2}
+                    ml={
+                      userAuthenticated?.username === item.sender ? 'auto' : '0'
+                    }
+                  >
+                    <Box alignItems={'center'} display={'flex'} gap={2}>
+                      <Avatar name={item.sender} size={'sm'} />
+                      <Box display={'flex'} flexDir={'column'} gap={0}>
+                        <Text
+                          fontSize={'small'}
+                          fontWeight={'500'}
+                          lineHeight={1.2}
+                        >
+                          {item.sender}
+                        </Text>
+                        <Text fontSize={'small'} lineHeight={1.2}>
+                          {item.content}
+                        </Text>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
+                ) : (
+                  <Text color={'gray.400'}>{item.content}</Text>
+                )}
               </ListItem>
             ))
           : null}

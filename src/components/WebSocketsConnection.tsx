@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
-import { toast } from 'react-toastify'
 
 import { useDeleteAllPublicMesaggesBySenderMutation } from 'hooks/mutation/useDeleteAllPublicMesaggesBySenderMutation'
 import { useDeleteUserMutation } from 'hooks/mutation/useDeleteUserMutation'
@@ -43,6 +42,7 @@ export function WebSocketsConnection(props: Props): JSX.Element {
 
       stompClient.connect({}, () => {
         stompClient.subscribe('/topic/public-messages', (message) => {
+          console.log(JSON.parse(message.body))
           queryClient.setQueryData(
             ['public-messages'],
             JSON.parse(message.body)
@@ -78,18 +78,6 @@ export function WebSocketsConnection(props: Props): JSX.Element {
             }
           }
         )
-
-        stompClient.subscribe('/topic/connected', function (message) {
-          const user: User = JSON.parse(message.body)
-
-          toast.info(`User ${user.username} join!`)
-        })
-
-        stompClient.subscribe('/topic/disconnected', function (message) {
-          const user: User = JSON.parse(message.body)
-
-          toast.info(`User ${user.username} left!`)
-        })
       })
     }
   }, [
@@ -110,7 +98,6 @@ export function WebSocketsConnection(props: Props): JSX.Element {
     const handleBeforeUnload = () => {
       if (userAuthenticated === null) return
       deleteUser(userAuthenticated)
-      deleteAllPublicMessagesBySender(userAuthenticated.username)
     }
 
     window.addEventListener('beforeunload', handleBeforeUnload)

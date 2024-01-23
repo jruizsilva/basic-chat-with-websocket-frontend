@@ -33,7 +33,6 @@ export function UserMenu() {
       stompClient.connected
     ) {
       deleteUser(userAuthenticated)
-      deleteAllPublicMessagesBySender(userAuthenticated.username)
       stompClient.disconnect(() => {
         logout()
       })

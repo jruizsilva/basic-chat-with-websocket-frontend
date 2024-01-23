@@ -2,7 +2,7 @@ interface PublicMessage {
   id: string
   sender: string
   content: string
-  type?: MessageType
+  type: MessageType
 }
 type MessageType = 'JOIN' | 'LEAVE' | 'MESSAGE'
 
