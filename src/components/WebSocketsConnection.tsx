@@ -62,6 +62,11 @@ export function WebSocketsConnection(props: Props): JSX.Element {
             queryClient.setQueryData([`chat-room/${chatName}`], chatRoom)
           }
         )
+        stompClient.subscribe('/topic/notification', function (message) {
+          const newMessage: UnreadMessage = JSON.parse(message.body)
+
+          console.log(newMessage)
+        })
       })
     }
   }, [

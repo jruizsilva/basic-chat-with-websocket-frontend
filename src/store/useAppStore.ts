@@ -8,12 +8,15 @@ interface Store {
   userSelected: User | null
   publicMessagesShowBadge: boolean
   privateMessagesShowBadge: boolean
+  unreadMessages: UnreadMessages
   setUserAuthenticated: (user: User) => void
   setStompClient: (stompClient: Stomp.Client) => void
   logout: () => void
   setUserSelected: (user: User | null) => void
   setPublicMessagesShowBadge: (publicMessagesShowBadge: boolean) => void
   setPrivateMessagesShowBadge: (privateMessagesShowBadge: boolean) => void
+  addUnreadMessage: (newUnreadMessage: UnreadMessage) => void
+  removeUnreadMessagesBySenderName: (senderName: string) => void
 }
 
 export const useAppStore = create(
@@ -24,6 +27,7 @@ export const useAppStore = create(
     userSelected: null,
     publicMessagesShowBadge: false,
     privateMessagesShowBadge: false,
+    unreadMessages: {},
     setUserAuthenticated: (userAuthenticated: User) => {
       set(() => ({
         userAuthenticated
@@ -50,6 +54,21 @@ export const useAppStore = create(
     },
     setPrivateMessagesShowBadge: (privateMessagesShowBadge: boolean) => {
       set(() => ({ privateMessagesShowBadge }))
+    },
+    addUnreadMessage: (unreadMessage: UnreadMessage) => {
+      const sender = unreadMessage.sender
+
+      set((state) => {
+        return {
+          ...state.unreadMessages,
+          [sender]: [...(state.unreadMessages[sender] ?? []), unreadMessage]
+        }
+      })
+    },
+    removeUnreadMessagesBySenderName: (senderName: string) => {
+      set((state) => {
+        return { ...state.unreadMessages, [senderName]: [] }
+      })
     }
   }))
 )
