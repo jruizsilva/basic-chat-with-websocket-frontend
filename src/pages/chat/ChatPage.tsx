@@ -33,8 +33,6 @@ export function ChatPage(props: Props): JSX.Element {
 
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
-  console.log(unreadMessages)
-
   return (
     <Box minHeight={'calc(80vh - 4px)'} pt={8}>
       <Box maxW={{ base: '480px', sm: '640px' }} mx={'auto'} width={'95%'}>

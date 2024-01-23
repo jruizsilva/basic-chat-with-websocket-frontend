@@ -42,7 +42,6 @@ export function WebSocketsConnection(props: Props): JSX.Element {
 
       stompClient.connect({}, () => {
         stompClient.subscribe('/topic/public-messages', (message) => {
-          console.log(JSON.parse(message.body))
           queryClient.setQueryData(
             ['public-messages'],
             JSON.parse(message.body)

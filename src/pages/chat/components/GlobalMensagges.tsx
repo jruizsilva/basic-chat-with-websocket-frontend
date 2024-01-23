@@ -61,8 +61,6 @@ export function GlobalMensagges(props: Props): JSX.Element {
     setMessage(event.target.value)
   }
 
-  console.log(publicMessages)
-
   return (
     <Box
       backgroundColor={'gray.700'}
