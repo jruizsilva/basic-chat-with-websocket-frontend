@@ -8,7 +8,7 @@ interface Store {
   userSelected: User | null
   publicMessagesShowBadge: boolean
   privateMessagesShowBadge: boolean
-  unreadMessages: UnreadMessages
+  unreadMessages: UnreadMessage[]
   setUserAuthenticated: (user: User) => void
   setStompClient: (stompClient: Stomp.Client) => void
   logout: () => void
@@ -27,7 +27,7 @@ export const useAppStore = create(
     userSelected: null,
     publicMessagesShowBadge: false,
     privateMessagesShowBadge: false,
-    unreadMessages: {},
+    unreadMessages: [],
     setUserAuthenticated: (userAuthenticated: User) => {
       set(() => ({
         userAuthenticated
@@ -56,18 +56,21 @@ export const useAppStore = create(
       set(() => ({ privateMessagesShowBadge }))
     },
     addUnreadMessage: (unreadMessage: UnreadMessage) => {
-      const sender = unreadMessage.sender
-
       set((state) => {
-        return {
-          ...state.unreadMessages,
-          [sender]: [...(state.unreadMessages[sender] ?? []), unreadMessage]
-        }
+        const previusUnreadMessages = state.unreadMessages
+
+        return { unreadMessages: [...previusUnreadMessages, unreadMessage] }
       })
     },
     removeUnreadMessagesBySenderName: (senderName: string) => {
       set((state) => {
-        return { ...state.unreadMessages, [senderName]: [] }
+        const previusUnreadMessages = state.unreadMessages
+
+        return {
+          unreadMessages: previusUnreadMessages.filter((m) => {
+            return m.sender !== senderName
+          })
+        }
       })
     }
   }))

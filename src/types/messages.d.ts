@@ -19,7 +19,7 @@ type AddPrivateMessageRequest = Omit<PrivateMessage, 'id'> & {
 }
 
 interface UnreadMessage {
+  chatName: string
   sender: string
   content: string
 }
-type UnreadMessages = Record<string, UnreadMessage[]>

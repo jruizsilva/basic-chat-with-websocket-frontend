@@ -11,6 +11,7 @@ export function ChatPage(props: Props): JSX.Element {
   const { data: users } = useUsersQuery()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const unreadMessages = useAppStore((store) => store.unreadMessages)
   const setUserSelected = useAppStore((store) => store.setUserSelected)
   const setPrivateMessagesShowBadge = useAppStore(
     (store) => store.setPrivateMessagesShowBadge
@@ -31,6 +32,8 @@ export function ChatPage(props: Props): JSX.Element {
   )
 
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
+
+  console.log(unreadMessages)
 
   return (
     <Box minHeight={'calc(80vh - 4px)'} pt={8}>

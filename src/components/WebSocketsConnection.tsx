@@ -14,6 +14,7 @@ interface Props {}
 export function WebSocketsConnection(props: Props): JSX.Element {
   const navigate = useNavigate()
   const stompClient = useAppStore((store) => store.stompClient)
+  const addUnreadMessage = useAppStore((store) => store.addUnreadMessage)
   const setPublicMessagesShowBadge = useAppStore(
     (store) => store.setPublicMessagesShowBadge
   )
@@ -62,10 +63,16 @@ export function WebSocketsConnection(props: Props): JSX.Element {
             queryClient.setQueryData([`chat-room/${chatName}`], chatRoom)
           }
         )
-        stompClient.subscribe('/topic/notification', function (message) {
-          const newMessage: UnreadMessage = JSON.parse(message.body)
 
-          console.log(newMessage)
+        stompClient.subscribe('/topic/notification', function (message) {
+          const newUnreadMessage: UnreadMessage = JSON.parse(message.body)
+
+          if (!window.location.pathname.includes(newUnreadMessage.chatName)) {
+            addUnreadMessage(newUnreadMessage)
+          }
+          if (!window.location.pathname.includes('users')) {
+            setPrivateMessagesShowBadge(true)
+          }
         })
       })
     }
@@ -79,7 +86,8 @@ export function WebSocketsConnection(props: Props): JSX.Element {
     deleteUser,
     setPublicMessagesShowBadge,
     navigate,
-    setPrivateMessagesShowBadge
+    setPrivateMessagesShowBadge,
+    addUnreadMessage
   ])
 
   useEffect(() => {

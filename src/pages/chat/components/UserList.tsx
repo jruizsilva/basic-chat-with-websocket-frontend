@@ -13,7 +13,11 @@ export function UserList(props: Props): JSX.Element {
   const userAuthenticated = useAppStore((store) => store.userAuthenticated)
   const userSelected = useAppStore((store) => store.userSelected)
   const setUserSelected = useAppStore((store) => store.setUserSelected)
+  const removeUnreadMessagesBySenderName = useAppStore(
+    (store) => store.removeUnreadMessagesBySenderName
+  )
   const [searchParams, setSearchParams] = useSearchParams()
+  const unreadMessages = useAppStore((store) => store.unreadMessages)
 
   const { createPrivateChat, isPending: isPendingCreatePrivateChat } =
     useCreateChatRoomMutation()
@@ -33,6 +37,7 @@ export function UserList(props: Props): JSX.Element {
     setUserSelected(user)
     createPrivateChat(privateChatRequest)
     searchParams.delete('sender')
+    removeUnreadMessagesBySenderName(user.username)
   }
 
   return (
@@ -62,7 +67,10 @@ export function UserList(props: Props): JSX.Element {
               >
                 <Avatar name={item.username} size={'sm'} />
                 <Text>{item.username}</Text>
-                <Badge colorScheme='purple'>1 new messages</Badge>
+                {unreadMessages.some((el) => el.sender === item.username) && (
+                  <Badge colorScheme='purple'>new messages</Badge>
+                )}
+
                 {searchParams.get('sender') === item.username && (
                   <Box bg='red' borderRadius='100%' height='8px' width='8px' />
                 )}
