@@ -56,30 +56,10 @@ export function WebSocketsConnection(props: Props): JSX.Element {
         stompClient.subscribe(
           `/user/${userAuthenticated.username}/queue/messages`,
           function (message) {
-            const privateChat: ChatRoom = JSON.parse(message.body)
-            const sender = privateChat.messages.find(
-              (message) => message.receiver === userAuthenticated.username
-            )
+            const chatRoom: ChatRoom = JSON.parse(message.body)
+            const chatName = chatRoom.chatName
 
-            if (sender !== undefined) {
-              console.log(sender)
-            }
-
-            console.log(window.location)
-            if (!window.location.pathname.includes('/users')) {
-              setPrivateMessagesShowBadge(true)
-            } else if (
-              !window.location.pathname.includes(privateChat.chatName) &&
-              sender !== undefined
-            ) {
-              navigate(`/chat/users?sender=${sender.sender}`, {
-                state: privateChat
-              })
-            } else {
-              navigate(`/chat/users/${privateChat.chatName}`, {
-                state: privateChat
-              })
-            }
+            queryClient.setQueryData([`chat-room/${chatName}`], chatRoom)
           }
         )
       })

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { fetchAllPublicMessages } from 'services/messages'
+import { fetchAllPublicMessages } from 'services/public-messages'
 
 export const usePublicMessagesQuery = () => {
   const { data, ...rest } = useQuery({

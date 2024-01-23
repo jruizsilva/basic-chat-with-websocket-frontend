@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-import { fetchAddPublicMessage } from 'services/messages'
+import { fetchAddPublicMessage } from 'services/public-messages'
 
 export const useAddPublicMessageMutation = () => {
   const { mutate, ...rest } = useMutation({

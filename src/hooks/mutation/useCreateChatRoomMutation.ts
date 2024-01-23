@@ -3,7 +3,7 @@ import { type AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { fetchCreateChatRoom } from 'services/chat'
+import { fetchCreateChatRoom } from 'services/chat-room'
 
 export const useCreateChatRoomMutation = () => {
   const navigate = useNavigate()

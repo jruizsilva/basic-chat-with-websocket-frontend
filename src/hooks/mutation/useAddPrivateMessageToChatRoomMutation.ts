@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-import { fetchAddPrivateMessageToChatRoom } from 'services/chat'
+import { fetchAddPrivateMessageToChatRoom } from 'services/chat-room'
 
 export const useAddPrivateMessageToChatRoomMutation = () => {
   const { mutate, ...rest } = useMutation({

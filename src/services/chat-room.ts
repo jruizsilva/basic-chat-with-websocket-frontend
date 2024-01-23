@@ -10,6 +10,13 @@ export const fetchCreateChatRoom = async (chatRoomRequest: ChatRoomRequest) => {
   return chatRoom
 }
 
+export const fetchFindChatRoomByChatName = async (chatName: string) => {
+  const response = await publicInstance.get<ChatRoom>(`/chat-rooms/${chatName}`)
+  const chatRoom = response.data
+
+  return chatRoom
+}
+
 export const fetchAddPrivateMessageToChatRoom = async (
   addPrivateMessageRequest: AddPrivateMessageRequest
 ) => {

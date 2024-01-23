@@ -1,4 +1,4 @@
-import { Avatar, Box, List, ListItem, Text } from '@chakra-ui/react'
+import { Avatar, Badge, Box, List, ListItem, Text } from '@chakra-ui/react'
 import { useSearchParams } from 'react-router-dom'
 
 import { useCreateChatRoomMutation } from 'hooks/mutation/useCreateChatRoomMutation'
@@ -62,6 +62,7 @@ export function UserList(props: Props): JSX.Element {
               >
                 <Avatar name={item.username} size={'sm'} />
                 <Text>{item.username}</Text>
+                <Badge colorScheme='purple'>1 new messages</Badge>
                 {searchParams.get('sender') === item.username && (
                   <Box bg='red' borderRadius='100%' height='8px' width='8px' />
                 )}

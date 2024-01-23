@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-import { fetchDeleteAllPublicMesaggesBySender } from 'services/messages'
+import { fetchDeleteAllPublicMesaggesBySender } from 'services/public-messages'
 
 export const useDeleteAllPublicMesaggesBySenderMutation = () => {
   const { mutate, ...rest } = useMutation({
